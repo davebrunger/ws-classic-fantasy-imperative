@@ -79,7 +79,7 @@ export type Skill = StandardSkill | ProfessionalSkill;
 
 export const skillNames = [...standardSkillNames, ...professionalSkillNames] as const;
 
-export type Skills = Partial<Readonly<Record<Skill, number>>>;
+export type Skills = Readonly<{readonly skill: Skill, readonly value: number}[]>;
 
 export function isSkill(value: unknown): value is Skill {
     return isStandardSkill(value) || isProfessionalSkill(value);

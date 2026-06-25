@@ -1,3 +1,5 @@
+import { getCharacteristicRolls, type Species } from "./species";
+
 export const characteristicNames = [
     'Strength',
     'Constitution',
@@ -22,6 +24,20 @@ export function rollCharacteristic(dice: number, sides: number, modifier: number
         total += Math.floor(Math.random() * sides) + 1;
     }
     return total + modifier;
+}
+
+export function rollCharacteristics(species: Species): Characteristics {
+    const rolls = getCharacteristicRolls(species);
+
+    return {
+        Strength: rollCharacteristic(rolls.Strength.dice, rolls.Strength.sides, rolls.Strength.modifier),
+        Constitution: rollCharacteristic(rolls.Constitution.dice, rolls.Constitution.sides, rolls.Constitution.modifier),
+        Size: rollCharacteristic(rolls.Size.dice, rolls.Size.sides, rolls.Size.modifier),
+        Dexterity: rollCharacteristic(rolls.Dexterity.dice, rolls.Dexterity.sides, rolls.Dexterity.modifier),
+        Intelligence: rollCharacteristic(rolls.Intelligence.dice, rolls.Intelligence.sides, rolls.Intelligence.modifier),
+        Power: rollCharacteristic(rolls.Power.dice, rolls.Power.sides, rolls.Power.modifier),
+        Charisma: rollCharacteristic(rolls.Charisma.dice, rolls.Charisma.sides, rolls.Charisma.modifier),
+    };
 }
 
 export function getActionPoints(_: Characteristics): number {

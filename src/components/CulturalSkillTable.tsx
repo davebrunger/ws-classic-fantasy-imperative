@@ -15,12 +15,12 @@ export function CulturalSkillTable({ culturalSkills, characteristics }: Props) {
     const standardCulturalSkills = { ...startingSkills };
 
     for (const skill of standardSkillNames) {
-        standardCulturalSkills[skill] = culturalSkills[skill] ?? 0;
+        standardCulturalSkills[skill] = culturalSkills.find(cs => cs.skill === skill)?.value ?? 0;
     }
 
-    const professionalSkills = Object.keys(culturalSkills).filter(isProfessionalSkill);
+    const professionalSkills = culturalSkills.filter(cs => isProfessionalSkill(cs.skill)).map(cs => cs.skill);
 
-    let startingProfessionalSkills: Skills = {};
+    let startingProfessionalSkills: Readonly<Partial<Record<Skill, number>>> = {};
 
     for (const skill of professionalSkills) {
         startingProfessionalSkills = { ...startingProfessionalSkills, [skill]: getStartingSkillValue(skill, characteristics) };
@@ -29,7 +29,7 @@ export function CulturalSkillTable({ culturalSkills, characteristics }: Props) {
     const culturalProfessionalSkills = { ...startingProfessionalSkills };
 
     for (const skill of professionalSkills) {
-        culturalProfessionalSkills[skill] = culturalSkills[skill] ?? 0;
+        culturalProfessionalSkills[skill] = culturalSkills.find(cs => cs.skill === skill)?.value ?? 0;
     }
 
     const professionalNumRows = Math.ceil(professionalSkills.length / 2);
