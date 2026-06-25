@@ -51,7 +51,7 @@ export const professionalSkillNames = [
     "Engineering",
     "Gambling",
     "Healing",
-    "Intimation",
+    "Intimidation",
     "Language",
     "Lockpicking",
     "Lore",
@@ -75,14 +75,29 @@ export function isProfessionalSkill(value: unknown): value is ProfessionalSkill 
     return typeof value === 'string' && professionalSkillNames.includes(value as ProfessionalSkill);
 }
 
-export type Skill = StandardSkill | ProfessionalSkill;
+export const combatSkillNames = ["Combat Skill"] as const;
 
-export const skillNames = [...standardSkillNames, ...professionalSkillNames] as const;
+export type CombatSkill = (typeof combatSkillNames)[number];
+
+export type CombatSkills = Partial<Readonly<Record<CombatSkill, number>>>;
+
+export function isCombatSkill(value: unknown): value is CombatSkill {
+    return typeof value === 'string' && combatSkillNames.includes(value as CombatSkill);
+}
+
+export type Skill = StandardSkill | ProfessionalSkill | CombatSkill;
+
+export const skillNames = [...standardSkillNames, ...professionalSkillNames, ...combatSkillNames] as const;
 
 export type Skills = Readonly<{readonly skill: Skill, readonly value: number}[]>;
 
 export function isSkill(value: unknown): value is Skill {
-    return isStandardSkill(value) || isProfessionalSkill(value);
+    return isStandardSkill(value) || isProfessionalSkill(value) || isCombatSkill(value);
+}
+
+export type SkillOption = {
+    readonly skills: Skill[];
+    readonly quickPick: number;
 }
 
 type StartingValue = {
@@ -171,7 +186,7 @@ export function getStartingValue(skill: Skill): StartingValue {
             return { characteristic1: "Intelligence", characteristic2: "Power", bonus: 0 };
         case "Healing":
             return { characteristic1: "Intelligence", characteristic2: "Power", bonus: 0 };
-        case "Intimation":
+        case "Intimidation":
             return { characteristic1: "Intelligence", characteristic2: "Charisma", bonus: 0 };
         case "Language":
             return { characteristic1: "Intelligence", characteristic2: "Charisma", bonus: 0 };
@@ -199,6 +214,8 @@ export function getStartingValue(skill: Skill): StartingValue {
             return { characteristic1: "Constitution", characteristic2: "Power", bonus: 0 };
         case "Track":
             return { characteristic1: "Intelligence", characteristic2: "Constitution", bonus: 0 };
+        case "Combat Skill":
+            return { characteristic1: "Strength", characteristic2: "Dexterity", bonus: 0 };
     }
 }
 

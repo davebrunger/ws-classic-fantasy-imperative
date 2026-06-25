@@ -1,4 +1,4 @@
-import type { ProfessionalSkill, Skill, StandardSkill } from "./skill";
+import type { SkillOption } from "./skill";
 
 export const cultureNames = [
     'Barbarian, Warrior Type',
@@ -21,11 +21,6 @@ export type Culture = (typeof cultureNames)[number];
 
 export function isCulture(value: unknown): value is Culture {
     return typeof value === 'string' && cultureNames.includes(value as Culture);
-}
-
-export type SkillOption = {
-    readonly skills: Skill[];
-    readonly quickPick: number;
 }
 
 export function getSkillOptions(culture: Culture): SkillOption[] {
