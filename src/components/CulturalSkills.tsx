@@ -7,6 +7,8 @@ import { CulturalSkillSelector } from "./CulturalSkillSelector";
 import { CulturalSkillTable } from "./CulturalSkillTable";
 
 type Props = {
+    readonly name: string;
+    readonly concept: string;
     readonly species: Species;
     readonly characteristics: Characteristics;
     readonly culture: Culture;
@@ -16,7 +18,7 @@ type Props = {
     readonly next: () => void;
 }
 
-export function CulturalSkills({ species, characteristics, culture, culturalSkills, setCulturalSkills, back, next }: Props) {
+export function CulturalSkills({ name, concept, species, characteristics, culture, culturalSkills, setCulturalSkills, back, next }: Props) {
 
     const skillOptions = getSkillOptions(culture);
 
@@ -29,10 +31,16 @@ export function CulturalSkills({ species, characteristics, culture, culturalSkil
 
     return (
         <>
-            <h3>Step 5: Culture</h3>
+            <h3>Step 5: Cultural Skills</h3>
             <hr />
-            <h4>Species{species ? `: ${species}` : ''}</h4>
-            <h4>Culture: {culture}</h4>
+            <div className="grid">
+                <h4>Name{name ? `: ${name}` : ''}</h4>
+                <h4>Concept{concept ? `: ${concept}` : ''}</h4>
+            </div>
+            <div className="grid">
+                <h4>Species{species ? `: ${species}` : ''}</h4>
+                <h4>Culture: {culture}</h4>
+            </div>
             <CharacteristicsTable characteristics={characteristics} />
             <CulturalSkillSelector culturalSkillOptions={skillOptions} culturalSkills={culturalSkillArray} setCulturalSkills={setCulturalSkillsArray} />
             <CulturalSkillTable culturalSkills={culturalSkills} characteristics={characteristics} />

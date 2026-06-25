@@ -18,7 +18,7 @@ export function Species({ species, setSpecies, next }: Props) {
                     <option key={species} value={species}>{species}</option>
                 ))}
             </select>
-            <button style={{ float: 'right' }} onClick={next}>Next</button>
+            <button style={{ float: 'right' }} onClick={next} disabled={!species}>Next</button>
         </>
     )
 }   
