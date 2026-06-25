@@ -27,8 +27,6 @@ export const standardSkillNames = [
 
 export type StandardSkill = (typeof standardSkillNames)[number];
 
-export type StandardSkills = Readonly<Record<StandardSkill, number>>;
-
 export function isStandardSkill(value: unknown): value is StandardSkill {
     return typeof value === 'string' && standardSkillNames.includes(value as StandardSkill);
 }
@@ -68,8 +66,6 @@ export const professionalSkillNames = [
 ] as const;
 
 export type ProfessionalSkill = (typeof professionalSkillNames)[number];
-
-export type ProfessionalSkills = Partial<Readonly<Record<ProfessionalSkill, number>>>;
 
 export function isProfessionalSkill(value: unknown): value is ProfessionalSkill {
     return typeof value === 'string' && professionalSkillNames.includes(value as ProfessionalSkill);
@@ -224,29 +220,10 @@ export function getStartingSkillValue(skill: Skill, characteristics: Characteris
     return characteristics[startingValue.characteristic1] + characteristics[startingValue.characteristic2] + startingValue.bonus;
 }
 
-export function getStartingSkills(characteristics: Characteristics): StandardSkills {
-    return {
-        Athletics: getStartingSkillValue('Athletics', characteristics),
-        Boating: getStartingSkillValue('Boating', characteristics),
-        Brawn: getStartingSkillValue('Brawn', characteristics),
-        Conceal: getStartingSkillValue('Conceal', characteristics),
-        Customs: getStartingSkillValue('Customs', characteristics),
-        Dance: getStartingSkillValue('Dance', characteristics),
-        Deceit: getStartingSkillValue('Deceit', characteristics),
-        Drive: getStartingSkillValue('Drive', characteristics),
-        Endurance: getStartingSkillValue('Endurance', characteristics),
-        Evade: getStartingSkillValue('Evade', characteristics),
-        "First Aid": getStartingSkillValue('First Aid', characteristics),
-        Influence: getStartingSkillValue('Influence', characteristics),
-        Insight: getStartingSkillValue('Insight', characteristics),
-        Locale: getStartingSkillValue('Locale', characteristics),
-        "Native Tongue": getStartingSkillValue('Native Tongue', characteristics),
-        Perception: getStartingSkillValue('Perception', characteristics),
-        Ride: getStartingSkillValue('Ride', characteristics),
-        Sing: getStartingSkillValue('Sing', characteristics),
-        Stealth: getStartingSkillValue('Stealth', characteristics),
-        Swim: getStartingSkillValue('Swim', characteristics),
-        "Unarmed Combat": getStartingSkillValue('Unarmed Combat', characteristics),
-        Willpower: getStartingSkillValue('Willpower', characteristics),
-    }
+export function getStartingSkills(skills : Readonly<Skill[]>, characteristics: Characteristics): Skills {
+    return skills.map(skill => ({ skill, value: getStartingSkillValue(skill, characteristics) }));
+}
+
+export function getStartingStandardSkills(characteristics: Characteristics): Skills {
+    return getStartingSkills(standardSkillNames, characteristics);
 }

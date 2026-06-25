@@ -2,8 +2,8 @@ import { type Species } from "../data/species";
 import { rollCharacteristics, type Characteristics as CharacteristicsType } from "../data/characterisic";
 import { CharacteristicsTable } from "./CharacteristicsTable";
 import { AttributesTable } from "./AttributesTable";
-import { StartingSkillTable } from "./StartingSkillTable";
-import { getStartingSkills } from "../data/skill";
+import { getStartingSkills, standardSkillNames } from "../data/skill";
+import { SkillTable } from "./SkillTable";
 
 type Props = {
     readonly species: Species;
@@ -24,7 +24,7 @@ export function Characteristics({ species, characteristics, setCharacteristics, 
             <h4>Attributes</h4>
             <AttributesTable characteristics={characteristics} species={species} />
             <h4>Standard Skills</h4>
-            <StartingSkillTable standardSkills={getStartingSkills(characteristics)} />
+            <SkillTable skillNames={standardSkillNames} columns={[{ name: "Starting Value", values: getStartingSkills(standardSkillNames, characteristics) }]} />
             <button onClick={back}>Back</button>
             <button style={{ float: 'right' }} onClick={next}>Next</button>
         </>

@@ -39,6 +39,7 @@ export function getSkillOptions(characterClass: Class): SkillOption[] {
             ];
         case 'Mage':
             return [
+                { skills: ['Combat Skill'], quickPick: 0 },
                 { skills: ['Evade'], quickPick: 10 },
                 { skills: ['First Aid'], quickPick: 5 },
                 { skills: ['Influence'], quickPick: 5 },
@@ -49,11 +50,12 @@ export function getSkillOptions(characterClass: Class): SkillOption[] {
                 { skills: ['Arcane Casting'], quickPick: 15 },
                 { skills: ['Arcane Knowledge'], quickPick: 15 },
                 { skills: ['Language'], quickPick: 5 },
-                /* { skills: ['Language', 'Lore'], quickPick: 5 } , */ // Missing due to no differentiation between different types of Lore in the current skill system
+                // { skills: ['Language', 'Lore'], quickPick: 5 },
+                // Missing due to no differentiation between different types of Lore in the current skill system
                 { skills: ['Lore'], quickPick: 10 },
             ];
         case 'Rogue':
-            // Rouge is missing Thieves' Cant Language, which is a Professional Skill.
+            // Rogue is missing Thieves' Cant Language, which is a Professional Skill.
             return [
                 { skills: ['Athletics'], quickPick: 15 },
                 { skills: ['Combat Skill'], quickPick: 10 },
