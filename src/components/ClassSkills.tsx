@@ -1,5 +1,5 @@
 import type { Characteristics } from "../data/characterisic";
-import { combineSkills, getStartingSkills, isCombatSkill, isProfessionalSkill, standardSkillNames, type Skill, type Skills } from "../data/skill";
+import { combineSkills, compare, getStartingSkills, isCombatSkill, isProfessionalSkill, standardSkillNames, type Skill, type Skills } from "../data/skill";
 import { SkillSelector } from "./SkillSelector";
 import { SkillTable } from "./SkillTable";
 import { getSkillOptions, type Class as ClassType } from "../data/class";
@@ -26,7 +26,7 @@ export function ClassSkills({ speciesSkills, characteristics, culturalSkills, ch
         setClassSkills(newClassSkills);
     }
 
-    const combinedSkillNames = [...new Set([...culturalSkills.map(cs => cs.skill), ...classSkills.map(cs => cs.skill)])].sort((a, b) => a.localeCompare(b));
+    const combinedSkillNames = [...new Set([...culturalSkills.map(cs => cs.skill), ...classSkills.map(cs => cs.skill)])].sort(compare);
 
     const professionalSkillNames = combinedSkillNames.filter(isProfessionalSkill);
 
@@ -38,18 +38,18 @@ export function ClassSkills({ speciesSkills, characteristics, culturalSkills, ch
         <>
             <SkillSelector skillOptions={skillOptions} skills={classSkillArray} setSkills={setClassSkillsArray} />
             <h4>Standard Skills</h4>
-            <SkillTable skillNames={standardSkillNames} columns={[
+            <SkillTable skills={standardSkillNames} columns={[
                 { name: "Starting Value", values: getStartingSkills(standardSkillNames, characteristics) },
                 { name: "Modifiers So Far", values: combinedModifiers },
                 { name: "Class Modifier", values: classSkills }]} />
             <h4>Professional Skills</h4>
-            <SkillTable skillNames={professionalSkillNames} columns={[
+            <SkillTable skills={professionalSkillNames} columns={[
                 { name: "Starting Value", values: getStartingSkills(professionalSkillNames, characteristics) },
                 { name: "Modifiers So Far", values: combinedModifiers },
                 { name: "Class Modifier", values: classSkills }
             ]} />
             <h4>Combat Skills</h4>
-            <SkillTable skillNames={combatSkillNames} columns={[
+            <SkillTable skills={combatSkillNames} columns={[
                 { name: "Starting Value", values: getStartingSkills(combatSkillNames, characteristics) },
                 { name: "Modifiers So Far", values: combinedModifiers },
                 { name: "Class Modifier", values: classSkills }

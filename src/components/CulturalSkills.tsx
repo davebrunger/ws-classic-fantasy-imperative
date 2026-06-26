@@ -31,12 +31,12 @@ export function CulturalSkills({ speciesSkills, characteristics, culture, cultur
         <>
             <SkillSelector skillOptions={skillOptions} skills={culturalSkillArray} setSkills={setCulturalSkillsArray} />
             <h4>Standard Skills</h4>
-            <SkillTable skillNames={standardSkillNames} columns={[
+            <SkillTable skills={standardSkillNames} columns={[
                 { name: "Starting Value", values: getStartingSkills(standardSkillNames, characteristics) },
                 { name: "Standard Modifier", values: speciesSkills },
                 { name: "Cultural Modifier", values: culturalSkills }]} />
             <h4>Professional Skills</h4>
-            <SkillTable skillNames={professionalSkills} columns={[
+            <SkillTable skills={professionalSkills} columns={[
                 { name: "Starting Value", values: getStartingSkills(professionalSkills, characteristics) },
                 { name: "Standard Modifier", values: speciesSkills },
                 { name: "Cultural Modifier", values: culturalSkills }

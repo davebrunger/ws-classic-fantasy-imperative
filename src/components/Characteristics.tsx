@@ -20,7 +20,7 @@ export function Characteristics({ species, speciesSkills, characteristics, setCh
             <h4>Attributes</h4>
             <AttributesTable characteristics={characteristics} species={species} />
             <h4>Standard Skills</h4>
-            <SkillTable skillNames={standardSkillNames} columns={[
+            <SkillTable skills={standardSkillNames} columns={[
                 { name: "Starting Value", values: getStartingSkills(standardSkillNames, characteristics) },
                 { name: "Standard Modifier", values: speciesSkills }
                 ]} />

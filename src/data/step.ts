@@ -1,7 +1,7 @@
 import { rollCharacteristics, type Characteristics } from "./characterisic";
 import { getSkillOptions as getClassSkillOptions, type Class } from "./class";
 import { getSkillOptions as getCulturalSkillOptions, type Culture } from "./culture";
-import type { Skill, SkillOption, Skills } from "./skill";
+import { areEqual, type Skill, type SkillOption, type Skills } from "./skill";
 import { getSkillOptions as getSpeciesSkillOptions, type Species } from "./species";
 
 export const stepNames = ["Species", "Characteristics", "Name and Concept", "Culture", "Cultural Skills", "Class", "Class Skills"] as const;
@@ -15,7 +15,7 @@ export function isStep(value: unknown): value is Step {
 function buildInitialSkills(skills: SkillOption[]): Skills {
     return skills.reduce((acc, option) => {
         let index = 0;
-        while (index < option.skills.length && acc.some(s => s.skill === option.skills[index])) {
+        while (index < option.skills.length && acc.some(s => areEqual(s.skill, option.skills[index]))) {
             index++;
         }
         acc.push({ skill: option.skills[index], value: option.quickPick });

@@ -1,4 +1,4 @@
-import type { Skill, SkillOption, Skills } from "../data/skill";
+import { areEqual, getDisplayName, type Skill, type SkillOption, type Skills } from "../data/skill";
 
 type Props = {
     readonly skillOptions: SkillOption[];
@@ -10,9 +10,9 @@ export function SkillSelector({ skillOptions, skills, setSkills }: Props) {
 
     const selectableOptions = skillOptions.map((option, index) => ({ ...option, index })).filter(option => option.skills.length > 1);
 
-    function getOptions(index: number): Skills {
-        const options = skillOptions[index].skills.filter(skill => skills.indexOf(skill) === -1 || skills[index] === skill);
-        return options.map(skill => ({ skill, value: skillOptions[index].quickPick }));
+    function getOptions(index: number) {
+        const options = skillOptions[index].skills.map((skill, i) => ({ skill, index: i })).filter(skill => skills.findIndex(s => areEqual(s, skill.skill)) === -1 || areEqual(skills[index], skill.skill));
+        return options.map(skill => ({ skill: skill.skill, index: skill.index, value: skillOptions[index].quickPick }));
     }
 
     function updateSkill(index: number, skill: Skill) {
@@ -23,20 +23,25 @@ export function SkillSelector({ skillOptions, skills, setSkills }: Props) {
 
     return (
         <>
-            {selectableOptions.map(option => (
-                <div key={option.index}>
-                    <select value={skills[option.index]} onChange={e => {
-                        const skill = e.target.value as Skill;
-                        updateSkill(option.index, skill);
-                    }}>
-                        {getOptions(option.index).map(({ skill, value }) => (
-                            <option key={skill} value={skill}>
-                                {`${skill} (${value}%)`}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-            ))}
+            {selectableOptions.map(option => {
+                const selectedSkill = skills[option.index];
+                const selectedOption = option.skills.findIndex(skill => areEqual(skill, selectedSkill));                
+                return (
+                    <div key={option.index}>
+                        <select value={selectedOption} onChange={e => {
+                            const skillIndex = parseInt(e.target.value, 10);
+                            const skill = skillOptions[option.index].skills[skillIndex];
+                            updateSkill(option.index, skill);
+                        }}>
+                            {getOptions(option.index).map(({ skill, index, value }) => (
+                                <option key={getDisplayName(skill)} value={index}>
+                                    {`${getDisplayName(skill)} (${value}%)`}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                );
+            })}
         </>
     );
 }

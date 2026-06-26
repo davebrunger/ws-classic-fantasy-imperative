@@ -31,7 +31,7 @@ export function isStandardSkill(value: unknown): value is StandardSkill {
     return typeof value === 'string' && standardSkillNames.includes(value as StandardSkill);
 }
 
-export const professionalGeneralSkillNames = [
+export const generalProfessionalSkillNames = [
     "Acting",
     "Acrobatics",
     "Animal Handling",
@@ -58,7 +58,7 @@ export const professionalGeneralSkillNames = [
     "Track"
 ] as const;
 
-export const professionalSpecialistSkillNames = [
+export const specialistProfessionalSkillNames = [
     "Art",
     "Craft",
     "Culture",
@@ -69,25 +69,33 @@ export const professionalSpecialistSkillNames = [
     "Navigation",
 ] as const;
 
-export type ProfessionalGeneralSkill = (typeof professionalGeneralSkillNames)[number];
+export type GeneralProfessionalSkill = (typeof generalProfessionalSkillNames)[number];
 
-export function isProfessionalGeneralSkill(value: unknown): value is ProfessionalGeneralSkill {
-    return typeof value === 'string' && professionalGeneralSkillNames.includes(value as ProfessionalGeneralSkill);
+export function isGeneralProfessionalSkill(value: unknown): value is GeneralProfessionalSkill {
+    return typeof value === 'string' && generalProfessionalSkillNames.includes(value as GeneralProfessionalSkill);
 }
 
-export type ProfessionalSpecialistSkillName = (typeof professionalSpecialistSkillNames)[number];
+export type SpecialistProfessionalSkill = { readonly name: SpecialistProfessionalSkillName, readonly specialization?: string };
 
-export function isProfessionalSpecialistSkillName(value: unknown): value is ProfessionalSpecialistSkillName {
-    return typeof value === 'string' && professionalSpecialistSkillNames.includes(value as ProfessionalSpecialistSkillName);
+export function isSpecialistProfessionalSkill(value: unknown): value is SpecialistProfessionalSkill {
+    return typeof value === 'object' && value !== null && 'name' in value && isSpecialistProfessionalSkillName((value as any).name);
 }
 
-export const professionalSkillNames = [...professionalGeneralSkillNames, ...professionalSpecialistSkillNames] as const;
+export type SpecialistProfessionalSkillName = (typeof specialistProfessionalSkillNames)[number];
 
-export type ProfessionalSkill = ProfessionalGeneralSkill | ProfessionalSpecialistSkillName;
+export function isSpecialistProfessionalSkillName(value: unknown): value is SpecialistProfessionalSkillName {
+    return typeof value === 'string' && specialistProfessionalSkillNames.includes(value as SpecialistProfessionalSkillName);
+}
+
+export type ProfessionalSkill = GeneralProfessionalSkill | SpecialistProfessionalSkill;
 
 export function isProfessionalSkill(value: unknown): value is ProfessionalSkill {
-    return typeof value === 'string' && professionalSkillNames.includes(value as ProfessionalSkill);
+    return isGeneralProfessionalSkill(value) || isSpecialistProfessionalSkill(value);
 }
+
+export const professionalSkillNames = [...generalProfessionalSkillNames, ...specialistProfessionalSkillNames] as const;
+
+export type ProfessionalSkillName = GeneralProfessionalSkill | SpecialistProfessionalSkillName;
 
 export const combatSkillNames = [
     "Combat Skill (Cleric)",
@@ -104,35 +112,33 @@ export function isCombatSkill(value: unknown): value is CombatSkill {
     return typeof value === 'string' && combatSkillNames.includes(value as CombatSkill);
 }
 
-export type SkillName = StandardSkill | ProfessionalSkill | CombatSkill;
-
-export type Skill = StandardSkill | ProfessionalGeneralSkill | { readonly name: ProfessionalSpecialistSkillName, readonly specialization?: string } | CombatSkill;
-
-export function getSkillName(skill: Skill): SkillName {
-    if (isStandardSkill(skill) || isProfessionalSkill(skill) || isCombatSkill(skill)) {
-        return skill;
-    } else {
-        return skill.name;
-    }
-}
-
-export function getDisplayName(skill: Skill): string {
-    if (isStandardSkill(skill) || isProfessionalSkill(skill) || isCombatSkill(skill)) {
-        return skill;
-    } else if (skill.specialization) {
-        return `${skill.name} (${skill.specialization})`;
-    } else {
-        return skill.name;
-    }
-}
-
-export const skillNames = [...standardSkillNames, ...professionalSkillNames, ...combatSkillNames] as const;
-
-export type Skills = Readonly<{ readonly skill: Skill, readonly value: number }[]>;
+export type Skill = StandardSkill | ProfessionalSkill | CombatSkill;
 
 export function isSkill(value: unknown): value is Skill {
     return isStandardSkill(value) || isProfessionalSkill(value) || isCombatSkill(value);
 }
+
+export const skillNames = [...standardSkillNames, ...professionalSkillNames, ...combatSkillNames] as const;
+
+export type SkillName = StandardSkill | ProfessionalSkillName | CombatSkill;
+
+export function getSkillName(skill: Skill): SkillName {
+    if (isSpecialistProfessionalSkill(skill)) {
+        return skill.name;
+    } else {
+        return skill;
+    }
+}
+
+export function getDisplayName(skill: Skill): string {
+    if (isSpecialistProfessionalSkill(skill)) {
+        return skill.specialization ? `${skill.name} (${skill.specialization})` : skill.name;
+    } else {
+        return skill;
+    }
+}
+
+export type Skills = Readonly<{ readonly skill: Skill, readonly value: number }[]>;
 
 export type SkillOption = {
     readonly skills: Skill[];
@@ -273,15 +279,32 @@ export function getStartingStandardSkills(characteristics: Characteristics): Ski
     return getStartingSkills(standardSkillNames, characteristics);
 }
 
+    export function areEqual(skill1: Skill, skill2: Skill): boolean {
+    return isStandardSkill(skill1) && isStandardSkill(skill2) && skill1 === skill2
+        || isGeneralProfessionalSkill(skill1) && isGeneralProfessionalSkill(skill2) && skill1 === skill2
+        || isCombatSkill(skill1) && isCombatSkill(skill2) && skill1 === skill2
+        || !isStandardSkill(skill1) && !isStandardSkill(skill2)
+            && !isGeneralProfessionalSkill(skill1) && !isGeneralProfessionalSkill(skill2)
+            && !isCombatSkill(skill1) && !isCombatSkill(skill2)
+            && skill1.name === skill2.name
+            && skill1.specialization === skill2.specialization;
+}
+
 export function combineSkills(skills: Skills, extraSkills: Skills): Skills {
     let combinedSkills = [...skills];
     for (const extraSkill of extraSkills) {
-        const existingSkill = combinedSkills.find(s => s.skill === extraSkill.skill);
+        const existingSkill = combinedSkills.find(s => areEqual(s.skill, extraSkill.skill));
         if (existingSkill) {
-            combinedSkills = combinedSkills.map(s => s.skill === extraSkill.skill ? { skill: s.skill, value: s.value + extraSkill.value } : s);
+            combinedSkills = combinedSkills.map(s => areEqual(s.skill, extraSkill.skill) ? { skill: s.skill, value: s.value + extraSkill.value } : s);
         } else {
             combinedSkills.push(extraSkill);
         }
     }
     return combinedSkills;
+}
+
+export function compare(skill1: Skill, skill2: Skill): number {
+    const name1 = getDisplayName(skill1);
+    const name2 = getDisplayName(skill2);
+    return name1.localeCompare(name2);
 }

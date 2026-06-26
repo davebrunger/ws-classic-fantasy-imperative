@@ -1,4 +1,4 @@
-import { type Skill, type Skills } from "../data/skill";
+import { areEqual, getDisplayName, type Skill, type Skills } from "../data/skill";
 
 type Column = {
     readonly name: string;
@@ -6,16 +6,16 @@ type Column = {
 }
 
 type Props = {
-    readonly skillNames: Readonly<Skill[]>;
+    readonly skills: Readonly<Skill[]>;
     readonly columns: Readonly<Column[]>;
 }
 
-export function SkillTable({ skillNames, columns }: Props) {
+export function SkillTable({ skills: skillNames, columns }: Props) {
 
     const numRows = Math.ceil(skillNames.length / 2);
 
     function getValue(skill: Skill, column: Column): number {
-        const skillValue = column.values.find(cs => cs.skill === skill);
+        const skillValue = column.values.find(cs => areEqual(cs.skill, skill));
         return skillValue?.value ?? 0;
     }
 
@@ -51,7 +51,7 @@ export function SkillTable({ skillNames, columns }: Props) {
             <tbody>
                 {[...Array(numRows).keys()].map(i => (
                     <tr key={i}>
-                        <th>{skillNames[i]}</th>
+                        <th>{getDisplayName(skillNames[i])}</th>
                         {columns.length > 0 && columns.map(column => (
                             <td key={column.name} style={{ textAlign: 'right' }}>{getDisplayValue(skillNames[i], column)}</td>
                         ))}
@@ -59,7 +59,7 @@ export function SkillTable({ skillNames, columns }: Props) {
                         {i + numRows < skillNames.length
                             ? (
                                 <>
-                                    <th>{skillNames[i + numRows]}</th>
+                                    <th>{getDisplayName(skillNames[i + numRows])}</th>
                                     {columns.length > 0 && columns.map(column => (
                                         <td key={column.name} style={{ textAlign: 'right' }}>{getDisplayValue(skillNames[i + numRows], column)}</td>
                                     ))}
