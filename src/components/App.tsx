@@ -18,6 +18,7 @@ import { CharacteristicsTable } from "./CharacteristicsTable";
 export function App() {
 
     const [species, setSpecies] = useState<SpeciesType | undefined>(undefined);
+    const [speciesSkills, setSpeciesSkills] = useState<Skills | undefined>(undefined);
     const [characteristics, setCharacteristics] = useState<CharacteristicsType | undefined>(undefined);
     const [name, setName] = useState<string | undefined>(undefined);
     const [concept, setConcept] = useState<string | undefined>(undefined);
@@ -29,13 +30,13 @@ export function App() {
     const [step, setStep] = useState<Step>("Species");
 
     function previousStep() {
-        if (!back(step, setStep, setCharacteristics, setName, setConcept, setCulture, setCulturalSkills, setCharacterClass, setClassSkills)) {
+        if (!back(step, setStep, setSpeciesSkills, setCharacteristics, setName, setConcept, setCulture, setCulturalSkills, setCharacterClass, setClassSkills)) {
             throw new Error("Cannot go back from this step.");
         }
     }
 
     function nextStep() {
-        if (!next(step, setStep, setCharacteristics, setCulturalSkills, setClassSkills, species, characteristics, culture, culturalSkills, characterClass, classSkills)) {
+        if (!next(step, setStep, setSpeciesSkills, setCharacteristics, setCulturalSkills, setClassSkills, species, speciesSkills, characteristics, culture, culturalSkills, characterClass, classSkills)) {
             alert("Character creation complete!");
         }
     }
@@ -48,18 +49,19 @@ export function App() {
             {step === "Species" &&
                 <Species species={species} setSpecies={setSpecies} next={nextStep} />}
             {step === "Characteristics" &&
-                <Characteristics species={species!} characteristics={characteristics!} setCharacteristics={setCharacteristics} back={previousStep} next={nextStep} />}
+                <Characteristics species={species!} speciesSkills={speciesSkills!} characteristics={characteristics!} setCharacteristics={setCharacteristics} back={previousStep} next={nextStep} />}
             {step === "Name and Concept" &&
                 <NameAndConcept name={name} setName={setName} concept={concept} setConcept={setConcept} back={previousStep} next={nextStep} />}
             {step === "Culture" &&
                 <Culture species={species!} culture={culture} setCulture={setCulture} back={previousStep} next={nextStep} />}
             {step === "Cultural Skills" &&
-                <CulturalSkills characteristics={characteristics!} culture={culture!} culturalSkills={culturalSkills!} setCulturalSkills={setCulturalSkills} back={previousStep} next={nextStep} />}
+                <CulturalSkills speciesSkills={speciesSkills!} characteristics={characteristics!} culture={culture!} culturalSkills={culturalSkills!} setCulturalSkills={setCulturalSkills}
+                    back={previousStep} next={nextStep} />}
             {step === "Class" &&
                 <Class characterClass={characterClass} setClass={setCharacterClass} back={previousStep} next={nextStep} />}
             {step === "Class Skills" &&
-                <ClassSkills characteristics={characteristics!} culturalSkills={culturalSkills!} characterClass={characterClass!} classSkills={classSkills!} setClassSkills={setClassSkills} 
-                    back={previousStep} next={nextStep} />}
+                <ClassSkills speciesSkills={speciesSkills!} characteristics={characteristics!} culturalSkills={culturalSkills!} characterClass={characterClass!} classSkills={classSkills!}
+                    setClassSkills={setClassSkills} back={previousStep} next={nextStep} />}
         </main>
     );
 }

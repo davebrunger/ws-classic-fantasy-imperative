@@ -1,5 +1,6 @@
 import type { Characteristic } from "./characterisic";
 import type { Culture } from "./culture";
+import type { SkillOption } from "./skill";
 
 export const speciesNames = [
     'Dwarf',
@@ -54,81 +55,81 @@ type CharacteristicRolls = Readonly<Record<Characteristic, CharacteristicRoll>>;
 
 export function getCharacteristicRolls(species: Species): CharacteristicRolls {
     switch (species) {
-            case 'Dwarf':
-                return {
-                    Strength: rollCharacteristic(2, 6, 9),
-                    Constitution: rollCharacteristic(2, 6, 9),
-                    Size: rollCharacteristic(2, 4, 4),
-                    Dexterity: rollCharacteristic(3, 6, 0),
-                    Intelligence: rollCharacteristic(2, 6, 6),
-                    Power: rollCharacteristic(3, 6, 0),
-                    Charisma: rollCharacteristic(2, 6, 2),
-                };
-            case 'Elf':
-                return {
-                    Strength: rollCharacteristic(2, 6, 4),
-                    Constitution: rollCharacteristic(3, 6, 0),
-                    Size: rollCharacteristic(2, 6, 4),
-                    Dexterity: rollCharacteristic(2, 6, 9),
-                    Intelligence: rollCharacteristic(2, 6, 7),
-                    Power: rollCharacteristic(2, 6, 7),
-                    Charisma: rollCharacteristic(3, 6, 0),
-                };
-            case 'Gnome':
-                return {
-                    Strength: rollCharacteristic(2, 6, 1),
-                    Constitution: rollCharacteristic(2, 6, 6),
-                    Size: rollCharacteristic(1, 3, 2),
-                    Dexterity: rollCharacteristic(3, 6, 2),
-                    Intelligence: rollCharacteristic(2, 6, 8),
-                    Power: rollCharacteristic(2, 6, 7),
-                    Charisma: rollCharacteristic(3, 6, 0),
-                };
-            case 'Half-Elf':
-                return {
-                    Strength: rollCharacteristic(3, 6, 0),
-                    Constitution: rollCharacteristic(3, 6, 0),
-                    Size: rollCharacteristic(2, 6, 6),
-                    Dexterity: rollCharacteristic(2, 6, 6),
-                    Intelligence: rollCharacteristic(2, 6, 6),
-                    Power: rollCharacteristic(2, 6, 6),
-                    Charisma: rollCharacteristic(3, 6, 0),
-                };
-            case 'Half-Orc':
-                return {
-                    Strength: rollCharacteristic(2, 6, 9),
-                    Constitution: rollCharacteristic(2, 6, 6),
-                    Size: rollCharacteristic(2, 6, 9),
-                    Dexterity: rollCharacteristic(3, 6, 0),
-                    Intelligence: rollCharacteristic(2, 6, 5),
-                    Power: rollCharacteristic(3, 6, 0),
-                    Charisma: rollCharacteristic(2, 6, 1),
-                };
-            case 'Halfling':
-                return {
-                    Strength: rollCharacteristic(2, 6, 1),
-                    Constitution: rollCharacteristic(2, 6, 7),
-                    Size: rollCharacteristic(1, 4, 5),
-                    Dexterity: rollCharacteristic(3, 6, 3),
-                    Intelligence: rollCharacteristic(2, 6, 6),
-                    Power: rollCharacteristic(2, 6, 9),
-                    Charisma: rollCharacteristic(2, 6, 5),
-                };
-            case 'Human':
-                return {
-                    Strength: rollCharacteristic(3, 6, 0),
-                    Constitution: rollCharacteristic(3, 6, 0),
-                    Size: rollCharacteristic(2, 6, 6),
-                    Dexterity: rollCharacteristic(3, 6, 0),
-                    Intelligence: rollCharacteristic(2, 6, 6),
-                    Power: rollCharacteristic(3, 6, 0),
-                    Charisma: rollCharacteristic(3, 6, 0),
-                };
-        }
+        case 'Dwarf':
+            return {
+                Strength: rollCharacteristic(2, 6, 9),
+                Constitution: rollCharacteristic(2, 6, 9),
+                Size: rollCharacteristic(2, 4, 4),
+                Dexterity: rollCharacteristic(3, 6, 0),
+                Intelligence: rollCharacteristic(2, 6, 6),
+                Power: rollCharacteristic(3, 6, 0),
+                Charisma: rollCharacteristic(2, 6, 2),
+            };
+        case 'Elf':
+            return {
+                Strength: rollCharacteristic(2, 6, 4),
+                Constitution: rollCharacteristic(3, 6, 0),
+                Size: rollCharacteristic(2, 6, 4),
+                Dexterity: rollCharacteristic(2, 6, 9),
+                Intelligence: rollCharacteristic(2, 6, 7),
+                Power: rollCharacteristic(2, 6, 7),
+                Charisma: rollCharacteristic(3, 6, 0),
+            };
+        case 'Gnome':
+            return {
+                Strength: rollCharacteristic(2, 6, 1),
+                Constitution: rollCharacteristic(2, 6, 6),
+                Size: rollCharacteristic(1, 3, 2),
+                Dexterity: rollCharacteristic(3, 6, 2),
+                Intelligence: rollCharacteristic(2, 6, 8),
+                Power: rollCharacteristic(2, 6, 7),
+                Charisma: rollCharacteristic(3, 6, 0),
+            };
+        case 'Half-Elf':
+            return {
+                Strength: rollCharacteristic(3, 6, 0),
+                Constitution: rollCharacteristic(3, 6, 0),
+                Size: rollCharacteristic(2, 6, 6),
+                Dexterity: rollCharacteristic(2, 6, 6),
+                Intelligence: rollCharacteristic(2, 6, 6),
+                Power: rollCharacteristic(2, 6, 6),
+                Charisma: rollCharacteristic(3, 6, 0),
+            };
+        case 'Half-Orc':
+            return {
+                Strength: rollCharacteristic(2, 6, 9),
+                Constitution: rollCharacteristic(2, 6, 6),
+                Size: rollCharacteristic(2, 6, 9),
+                Dexterity: rollCharacteristic(3, 6, 0),
+                Intelligence: rollCharacteristic(2, 6, 5),
+                Power: rollCharacteristic(3, 6, 0),
+                Charisma: rollCharacteristic(2, 6, 1),
+            };
+        case 'Halfling':
+            return {
+                Strength: rollCharacteristic(2, 6, 1),
+                Constitution: rollCharacteristic(2, 6, 7),
+                Size: rollCharacteristic(1, 4, 5),
+                Dexterity: rollCharacteristic(3, 6, 3),
+                Intelligence: rollCharacteristic(2, 6, 6),
+                Power: rollCharacteristic(2, 6, 9),
+                Charisma: rollCharacteristic(2, 6, 5),
+            };
+        case 'Human':
+            return {
+                Strength: rollCharacteristic(3, 6, 0),
+                Constitution: rollCharacteristic(3, 6, 0),
+                Size: rollCharacteristic(2, 6, 6),
+                Dexterity: rollCharacteristic(3, 6, 0),
+                Intelligence: rollCharacteristic(2, 6, 6),
+                Power: rollCharacteristic(3, 6, 0),
+                Charisma: rollCharacteristic(3, 6, 0),
+            };
+    }
 }
 
 export function getAvailableCultures(species: Species): Culture[] {
-    
+
     const humanCultures: Culture[] = [
         'Barbarian, Warrior Type',
         'Barbarian, Wise Person',
@@ -139,7 +140,7 @@ export function getAvailableCultures(species: Species): Culture[] {
         'Primitive, Warrior Type',
         'Primitive, Wise Person'
     ];
-    
+
     switch (species) {
         case 'Dwarf':
             return ['Dwarf'];
@@ -157,3 +158,11 @@ export function getAvailableCultures(species: Species): Culture[] {
             return humanCultures;
     }
 }
+
+export function getSkillOptions(_: Species): SkillOption[] {
+    return [
+        { skills: ['Customs'], quickPick: 40 },
+        { skills: ['Native Tongue'], quickPick: 40 },
+    ];
+}
+

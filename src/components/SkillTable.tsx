@@ -40,12 +40,12 @@ export function SkillTable({ skillNames, columns }: Props) {
                     {columns.length > 0 && columns.map(column => (
                         <th key={column.name} style={{ textAlign: 'right' }}>{column.name}</th>
                     ))}
-                    <th style={{ textAlign: 'right' }}>Percentage</th>
+                    <th style={{ textAlign: 'right' }}>Total</th>
                     <th>Skill</th>
                     {columns.length > 0 && columns.map(column => (
                         <th key={column.name} style={{ textAlign: 'right' }}>{column.name}</th>
                     ))}
-                    <th style={{ textAlign: 'right' }}>Percentage</th>
+                    <th style={{ textAlign: 'right' }}>Total</th>
                 </tr>
             </thead>
             <tbody>

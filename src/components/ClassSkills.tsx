@@ -1,11 +1,11 @@
 import type { Characteristics } from "../data/characterisic";
-import { getStartingSkills, isCombatSkill, isProfessionalSkill, standardSkillNames, type Skill, type Skills } from "../data/skill";
-import { CharacteristicsTable } from "./CharacteristicsTable";
+import { combineSkills, getStartingSkills, isCombatSkill, isProfessionalSkill, standardSkillNames, type Skill, type Skills } from "../data/skill";
 import { SkillSelector } from "./SkillSelector";
 import { SkillTable } from "./SkillTable";
 import { getSkillOptions, type Class as ClassType } from "../data/class";
 
 type Props = {
+    readonly speciesSkills: Skills;
     readonly characteristics: Characteristics;
     readonly culturalSkills: Skills;
     readonly characterClass: ClassType;
@@ -15,7 +15,7 @@ type Props = {
     readonly next: () => void;
 }
 
-export function ClassSkills({ characteristics, culturalSkills, characterClass, classSkills, setClassSkills, back, next }: Props) {
+export function ClassSkills({ speciesSkills, characteristics, culturalSkills, characterClass, classSkills, setClassSkills, back, next }: Props) {
 
     const skillOptions = getSkillOptions(characterClass);
 
@@ -32,25 +32,26 @@ export function ClassSkills({ characteristics, culturalSkills, characterClass, c
 
     const combatSkillNames = combinedSkillNames.filter(isCombatSkill);
 
+    const combinedModifiers = combineSkills(speciesSkills, culturalSkills);
+
     return (
         <>
-            <CharacteristicsTable characteristics={characteristics} />
             <SkillSelector skillOptions={skillOptions} skills={classSkillArray} setSkills={setClassSkillsArray} />
             <h4>Standard Skills</h4>
             <SkillTable skillNames={standardSkillNames} columns={[
                 { name: "Starting Value", values: getStartingSkills(standardSkillNames, characteristics) },
-                { name: "Cultural Modifier", values: culturalSkills },
+                { name: "Modifiers So Far", values: combinedModifiers },
                 { name: "Class Modifier", values: classSkills }]} />
             <h4>Professional Skills</h4>
             <SkillTable skillNames={professionalSkillNames} columns={[
                 { name: "Starting Value", values: getStartingSkills(professionalSkillNames, characteristics) },
-                { name: "Cultural Modifier", values: culturalSkills },
+                { name: "Modifiers So Far", values: combinedModifiers },
                 { name: "Class Modifier", values: classSkills }
             ]} />
             <h4>Combat Skills</h4>
             <SkillTable skillNames={combatSkillNames} columns={[
                 { name: "Starting Value", values: getStartingSkills(combatSkillNames, characteristics) },
-                { name: "Cultural Modifier", values: culturalSkills },
+                { name: "Modifiers So Far", values: combinedModifiers },
                 { name: "Class Modifier", values: classSkills }
             ]} />
             <button onClick={back}>Back</button>

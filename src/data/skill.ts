@@ -99,125 +99,124 @@ export type SkillOption = {
 type StartingValue = {
     readonly characteristic1: Characteristic;
     readonly characteristic2: Characteristic;
-    readonly bonus: number;
 }
 
 export function getStartingValue(skill: Skill): StartingValue {
     switch (skill) {
         case "Athletics":
-            return { characteristic1: "Strength", characteristic2: "Dexterity", bonus: 0 };
+            return { characteristic1: "Strength", characteristic2: "Dexterity" };
         case "Boating":
-            return { characteristic1: "Strength", characteristic2: "Constitution", bonus: 0 };
+            return { characteristic1: "Strength", characteristic2: "Constitution" };
         case "Brawn":
-            return { characteristic1: "Strength", characteristic2: "Size", bonus: 0 };
+            return { characteristic1: "Strength", characteristic2: "Size" };
         case "Conceal":
-            return { characteristic1: "Dexterity", characteristic2: "Power", bonus: 0 };
+            return { characteristic1: "Dexterity", characteristic2: "Power" };
         case "Customs":
-            return { characteristic1: "Intelligence", characteristic2: "Intelligence", bonus: 40 };
+            return { characteristic1: "Intelligence", characteristic2: "Intelligence" };
         case "Dance":
-            return { characteristic1: "Dexterity", characteristic2: "Charisma", bonus: 0 };
+            return { characteristic1: "Dexterity", characteristic2: "Charisma" };
         case "Deceit":
-            return { characteristic1: "Intelligence", characteristic2: "Charisma", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Charisma" };
         case "Drive":
-            return { characteristic1: "Dexterity", characteristic2: "Power", bonus: 0 };
+            return { characteristic1: "Dexterity", characteristic2: "Power" };
         case "Endurance":
-            return { characteristic1: "Constitution", characteristic2: "Constitution", bonus: 0 };
+            return { characteristic1: "Constitution", characteristic2: "Constitution" };
         case "Evade":
-            return { characteristic1: "Dexterity", characteristic2: "Dexterity", bonus: 0 };
+            return { characteristic1: "Dexterity", characteristic2: "Dexterity" };
         case "First Aid":
-            return { characteristic1: "Intelligence", characteristic2: "Dexterity", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Dexterity" };
         case "Influence":
-            return { characteristic1: "Charisma", characteristic2: "Charisma", bonus: 0 };
+            return { characteristic1: "Charisma", characteristic2: "Charisma" };
         case "Insight":
-            return { characteristic1: "Intelligence", characteristic2: "Power", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Power" };
         case "Locale":
-            return { characteristic1: "Intelligence", characteristic2: "Intelligence", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Intelligence" };
         case "Native Tongue":
-            return { characteristic1: "Intelligence", characteristic2: "Charisma", bonus: 40 };
+            return { characteristic1: "Intelligence", characteristic2: "Charisma" };
         case "Perception":
-            return { characteristic1: "Intelligence", characteristic2: "Power", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Power" };
         case "Ride":
-            return { characteristic1: "Dexterity", characteristic2: "Power", bonus: 0 };
+            return { characteristic1: "Dexterity", characteristic2: "Power" };
         case "Sing":
-            return { characteristic1: "Charisma", characteristic2: "Power", bonus: 0 };
+            return { characteristic1: "Charisma", characteristic2: "Power" };
         case "Stealth":
-            return { characteristic1: "Dexterity", characteristic2: "Intelligence", bonus: 0 };
+            return { characteristic1: "Dexterity", characteristic2: "Intelligence" };
         case "Swim":
-            return { characteristic1: "Strength", characteristic2: "Constitution", bonus: 0 };
+            return { characteristic1: "Strength", characteristic2: "Constitution" };
         case "Unarmed Combat":
-            return { characteristic1: "Strength", characteristic2: "Dexterity", bonus: 0 };
+            return { characteristic1: "Strength", characteristic2: "Dexterity" };
         case "Willpower":
-            return { characteristic1: "Power", characteristic2: "Power", bonus: 0 };
+            return { characteristic1: "Power", characteristic2: "Power" };
         case "Acting":
-            return { characteristic1: "Charisma", characteristic2: "Charisma", bonus: 0 };
+            return { characteristic1: "Charisma", characteristic2: "Charisma" };
         case "Acrobatics":
-            return { characteristic1: "Strength", characteristic2: "Dexterity", bonus: 0 };
+            return { characteristic1: "Strength", characteristic2: "Dexterity" };
         case "Animal Handling":
-            return { characteristic1: "Power", characteristic2: "Charisma", bonus: 0 };
+            return { characteristic1: "Power", characteristic2: "Charisma" };
         case "Arcane Casting":
-            return { characteristic1: "Intelligence", characteristic2: "Power", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Power" };
         case "Arcane Knowledge":
-            return { characteristic1: "Intelligence", characteristic2: "Intelligence", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Intelligence" };
         case "Art":
-            return { characteristic1: "Power", characteristic2: "Charisma", bonus: 0 };
+            return { characteristic1: "Power", characteristic2: "Charisma" };
         case "Bureaucracy":
-            return { characteristic1: "Intelligence", characteristic2: "Intelligence", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Intelligence" };
         case "Channel":
-            return { characteristic1: "Intelligence", characteristic2: "Charisma", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Charisma" };
         case "Commerce":
-            return { characteristic1: "Intelligence", characteristic2: "Charisma", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Charisma" };
         case "Courtesy":
-            return { characteristic1: "Intelligence", characteristic2: "Charisma", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Charisma" };
         case "Craft":
-            return { characteristic1: "Intelligence", characteristic2: "Dexterity", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Dexterity" };
         case "Culture":
-            return { characteristic1: "Intelligence", characteristic2: "Intelligence", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Intelligence" };
         case "Devotion":
-            return { characteristic1: "Power", characteristic2: "Charisma", bonus: 0 };
+            return { characteristic1: "Power", characteristic2: "Charisma" };
         case "Disguise":
-            return { characteristic1: "Intelligence", characteristic2: "Charisma", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Charisma" };
         case "Engineering":
-            return { characteristic1: "Intelligence", characteristic2: "Intelligence", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Intelligence" };
         case "Gambling":
-            return { characteristic1: "Intelligence", characteristic2: "Power", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Power" };
         case "Healing":
-            return { characteristic1: "Intelligence", characteristic2: "Power", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Power" };
         case "Intimidation":
-            return { characteristic1: "Intelligence", characteristic2: "Charisma", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Charisma" };
         case "Language":
-            return { characteristic1: "Intelligence", characteristic2: "Charisma", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Charisma" };
         case "Lockpicking":
-            return { characteristic1: "Dexterity", characteristic2: "Dexterity", bonus: 0 };
+            return { characteristic1: "Dexterity", characteristic2: "Dexterity" };
         case "Lore":
-            return { characteristic1: "Intelligence", characteristic2: "Intelligence", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Intelligence" };
         case "Mechanisms":
-            return { characteristic1: "Intelligence", characteristic2: "Dexterity", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Dexterity" };
         case "Musicianship":
-            return { characteristic1: "Dexterity", characteristic2: "Charisma", bonus: 0 };
+            return { characteristic1: "Dexterity", characteristic2: "Charisma" };
         case "Navigation":
-            return { characteristic1: "Intelligence", characteristic2: "Power", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Power" };
         case "Oratory":
-            return { characteristic1: "Power", characteristic2: "Charisma", bonus: 0 };
+            return { characteristic1: "Power", characteristic2: "Charisma" };
         case "Seamanship":
-            return { characteristic1: "Intelligence", characteristic2: "Constitution", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Constitution" };
         case "Seduction":
-            return { characteristic1: "Intelligence", characteristic2: "Charisma", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Charisma" };
         case "Sleight":
-            return { characteristic1: "Dexterity", characteristic2: "Charisma", bonus: 0 };
+            return { characteristic1: "Dexterity", characteristic2: "Charisma" };
         case "Streetwise":
-            return { characteristic1: "Power", characteristic2: "Charisma", bonus: 0 };
+            return { characteristic1: "Power", characteristic2: "Charisma" };
         case "Survival":
-            return { characteristic1: "Constitution", characteristic2: "Power", bonus: 0 };
+            return { characteristic1: "Constitution", characteristic2: "Power" };
         case "Track":
-            return { characteristic1: "Intelligence", characteristic2: "Constitution", bonus: 0 };
+            return { characteristic1: "Intelligence", characteristic2: "Constitution" };
         case "Combat Skill":
-            return { characteristic1: "Strength", characteristic2: "Dexterity", bonus: 0 };
+            return { characteristic1: "Strength", characteristic2: "Dexterity" };
     }
 }
 
 export function getStartingSkillValue(skill: Skill, characteristics: Characteristics): number {
     const startingValue = getStartingValue(skill);
-    return characteristics[startingValue.characteristic1] + characteristics[startingValue.characteristic2] + startingValue.bonus;
+    return characteristics[startingValue.characteristic1] + characteristics[startingValue.characteristic2];
 }
 
 export function getStartingSkills(skills : Readonly<Skill[]>, characteristics: Characteristics): Skills {
@@ -226,4 +225,17 @@ export function getStartingSkills(skills : Readonly<Skill[]>, characteristics: C
 
 export function getStartingStandardSkills(characteristics: Characteristics): Skills {
     return getStartingSkills(standardSkillNames, characteristics);
+}
+
+export function combineSkills(skills: Skills, extraSkills: Skills): Skills {
+    let combinedSkills = [...skills];
+    for (const extraSkill of extraSkills) {
+        const existingSkill = combinedSkills.find(s => s.skill === extraSkill.skill);
+        if (existingSkill) {
+            combinedSkills = combinedSkills.map(s => s.skill === extraSkill.skill ? { skill: s.skill, value: s.value + extraSkill.value } : s);
+        } else {
+            combinedSkills.push(extraSkill);
+        }
+    }
+    return combinedSkills;
 }

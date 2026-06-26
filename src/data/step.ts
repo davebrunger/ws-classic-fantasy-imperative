@@ -2,7 +2,7 @@ import { rollCharacteristics, type Characteristics } from "./characterisic";
 import { getSkillOptions as getClassSkillOptions, type Class } from "./class";
 import { getSkillOptions as getCulturalSkillOptions, type Culture } from "./culture";
 import type { Skill, SkillOption, Skills } from "./skill";
-import type { Species } from "./species";
+import { getSkillOptions as getSpeciesSkillOptions, type Species } from "./species";
 
 export const stepNames = ["Species", "Characteristics", "Name and Concept", "Culture", "Cultural Skills", "Class", "Class Skills"] as const;
 
@@ -26,10 +26,12 @@ function buildInitialSkills(skills: SkillOption[]): Skills {
 export function next(
     currentStep: Step,
     setStep: (step: Step) => void,
+    setSpeciesSkills: (skills?: Skills) => void,
     setCharacteristics: (characteristics?: Characteristics) => void,
     setCulturalSkills: (skills?: Skills) => void,
     setClassSkills: (skills?: Skills) => void,
     species?: Species,
+    speciesSkills?: Skills,
     characteristics?: Characteristics,
     culture?: Culture,
     culturalSkills?: Skills,
@@ -40,6 +42,9 @@ export function next(
         case "Species":
             if (!characteristics) {
                 setCharacteristics(rollCharacteristics(species!));
+            }
+            if (!speciesSkills) {
+                setSpeciesSkills(buildInitialSkills(getSpeciesSkillOptions(species!)));
             }
             setStep("Characteristics");
             return true;
@@ -71,6 +76,7 @@ export function next(
 export function back(
     currentStep: Step,
     setStep: (step: Step) => void,
+    setSpeciesSkills: (skills?: Skills) => void,
     setCharacteristics: (characteristics?: Characteristics) => void,
     setName: (name?: string) => void,
     setConcept: (concept?: string) => void,
@@ -81,6 +87,7 @@ export function back(
 ): boolean {
     switch (currentStep) {
         case "Characteristics":
+            setSpeciesSkills(undefined);
             setCharacteristics(undefined);
             setStep("Species");
             return true;

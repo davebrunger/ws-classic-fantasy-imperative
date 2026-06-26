@@ -5,6 +5,7 @@ import { SkillSelector } from "./SkillSelector";
 import { SkillTable } from "./SkillTable";
 
 type Props = {
+    readonly speciesSkills: Skills;
     readonly characteristics: Characteristics;
     readonly culture: Culture;
     readonly culturalSkills: Skills;
@@ -13,7 +14,7 @@ type Props = {
     readonly next: () => void;
 }
 
-export function CulturalSkills({ characteristics, culture, culturalSkills, setCulturalSkills, back, next }: Props) {
+export function CulturalSkills({ speciesSkills, characteristics, culture, culturalSkills, setCulturalSkills, back, next }: Props) {
 
     const skillOptions = getSkillOptions(culture);
 
@@ -32,10 +33,12 @@ export function CulturalSkills({ characteristics, culture, culturalSkills, setCu
             <h4>Standard Skills</h4>
             <SkillTable skillNames={standardSkillNames} columns={[
                 { name: "Starting Value", values: getStartingSkills(standardSkillNames, characteristics) },
+                { name: "Standard Modifier", values: speciesSkills },
                 { name: "Cultural Modifier", values: culturalSkills }]} />
             <h4>Professional Skills</h4>
             <SkillTable skillNames={professionalSkills} columns={[
                 { name: "Starting Value", values: getStartingSkills(professionalSkills, characteristics) },
+                { name: "Standard Modifier", values: speciesSkills },
                 { name: "Cultural Modifier", values: culturalSkills }
             ]} />
             <button onClick={back}>Back</button>
