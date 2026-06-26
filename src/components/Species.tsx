@@ -10,8 +10,6 @@ export function Species({ species, setSpecies, next }: Props) {
 
     return (
         <>
-            <h3>Steps 1: Species</h3>
-            <hr />
             <select onChange={e => setSpecies(e.target.value as SpeciesType)} value={species || ""}>
                 {!species && <option value="">Select a species</option>}
                 {speciesNames.map(species => (

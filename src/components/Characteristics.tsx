@@ -1,6 +1,5 @@
 import { type Species } from "../data/species";
 import { rollCharacteristics, type Characteristics as CharacteristicsType } from "../data/characterisic";
-import { CharacteristicsTable } from "./CharacteristicsTable";
 import { AttributesTable } from "./AttributesTable";
 import { getStartingSkills, standardSkillNames } from "../data/skill";
 import { SkillTable } from "./SkillTable";
@@ -16,10 +15,6 @@ type Props = {
 export function Characteristics({ species, characteristics, setCharacteristics, back, next }: Props) {
    return (
         <>
-            <h3>Step 2: Characteristics, Attributes, and Skills</h3>
-            <hr />
-            <h4>Species: {species}</h4>
-            <CharacteristicsTable characteristics={characteristics} />
             <button onClick={() => setCharacteristics(rollCharacteristics(species))}>Re-Roll</button>
             <h4>Attributes</h4>
             <AttributesTable characteristics={characteristics} species={species} />
