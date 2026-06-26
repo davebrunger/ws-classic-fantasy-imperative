@@ -31,31 +31,24 @@ export function isStandardSkill(value: unknown): value is StandardSkill {
     return typeof value === 'string' && standardSkillNames.includes(value as StandardSkill);
 }
 
-export const professionalSkillNames = [
+export const professionalGeneralSkillNames = [
     "Acting",
     "Acrobatics",
     "Animal Handling",
     "Arcane Casting",
     "Arcane Knowledge",
-    "Art",
     "Bureaucracy",
     "Channel",
     "Commerce",
     "Courtesy",
-    "Craft",
-    "Culture",
     "Devotion",
     "Disguise",
     "Engineering",
     "Gambling",
     "Healing",
     "Intimidation",
-    "Language",
     "Lockpicking",
-    "Lore",
     "Mechanisms",
-    "Musicianship",
-    "Navigation",
     "Oratory",
     "Seamanship",
     "Seduction",
@@ -65,13 +58,43 @@ export const professionalSkillNames = [
     "Track"
 ] as const;
 
-export type ProfessionalSkill = (typeof professionalSkillNames)[number];
+export const professionalSpecialistSkillNames = [
+    "Art",
+    "Craft",
+    "Culture",
+    "Language",
+    "Lore",
+    "Mechanisms",
+    "Musicianship",
+    "Navigation",
+] as const;
+
+export type ProfessionalGeneralSkill = (typeof professionalGeneralSkillNames)[number];
+
+export function isProfessionalGeneralSkill(value: unknown): value is ProfessionalGeneralSkill {
+    return typeof value === 'string' && professionalGeneralSkillNames.includes(value as ProfessionalGeneralSkill);
+}
+
+export type ProfessionalSpecialistSkillName = (typeof professionalSpecialistSkillNames)[number];
+
+export function isProfessionalSpecialistSkillName(value: unknown): value is ProfessionalSpecialistSkillName {
+    return typeof value === 'string' && professionalSpecialistSkillNames.includes(value as ProfessionalSpecialistSkillName);
+}
+
+export const professionalSkillNames = [...professionalGeneralSkillNames, ...professionalSpecialistSkillNames] as const;
+
+export type ProfessionalSkill = ProfessionalGeneralSkill | ProfessionalSpecialistSkillName;
 
 export function isProfessionalSkill(value: unknown): value is ProfessionalSkill {
     return typeof value === 'string' && professionalSkillNames.includes(value as ProfessionalSkill);
 }
 
-export const combatSkillNames = ["Combat Skill"] as const;
+export const combatSkillNames = [
+    "Combat Skill (Cleric)",
+    "Combat Skill (Fighter)",
+    "Combat Skill (Mage)",
+    "Combat Skill (Rogue)"
+] as const;
 
 export type CombatSkill = (typeof combatSkillNames)[number];
 
@@ -81,11 +104,31 @@ export function isCombatSkill(value: unknown): value is CombatSkill {
     return typeof value === 'string' && combatSkillNames.includes(value as CombatSkill);
 }
 
-export type Skill = StandardSkill | ProfessionalSkill | CombatSkill;
+export type SkillName = StandardSkill | ProfessionalSkill | CombatSkill;
+
+export type Skill = StandardSkill | ProfessionalGeneralSkill | { readonly name: ProfessionalSpecialistSkillName, readonly specialization?: string } | CombatSkill;
+
+export function getSkillName(skill: Skill): SkillName {
+    if (isStandardSkill(skill) || isProfessionalSkill(skill) || isCombatSkill(skill)) {
+        return skill;
+    } else {
+        return skill.name;
+    }
+}
+
+export function getDisplayName(skill: Skill): string {
+    if (isStandardSkill(skill) || isProfessionalSkill(skill) || isCombatSkill(skill)) {
+        return skill;
+    } else if (skill.specialization) {
+        return `${skill.name} (${skill.specialization})`;
+    } else {
+        return skill.name;
+    }
+}
 
 export const skillNames = [...standardSkillNames, ...professionalSkillNames, ...combatSkillNames] as const;
 
-export type Skills = Readonly<{readonly skill: Skill, readonly value: number}[]>;
+export type Skills = Readonly<{ readonly skill: Skill, readonly value: number }[]>;
 
 export function isSkill(value: unknown): value is Skill {
     return isStandardSkill(value) || isProfessionalSkill(value) || isCombatSkill(value);
@@ -102,7 +145,7 @@ type StartingValue = {
 }
 
 export function getStartingValue(skill: Skill): StartingValue {
-    switch (skill) {
+    switch (getSkillName(skill)) {
         case "Athletics":
             return { characteristic1: "Strength", characteristic2: "Dexterity" };
         case "Boating":
@@ -209,7 +252,10 @@ export function getStartingValue(skill: Skill): StartingValue {
             return { characteristic1: "Constitution", characteristic2: "Power" };
         case "Track":
             return { characteristic1: "Intelligence", characteristic2: "Constitution" };
-        case "Combat Skill":
+        case "Combat Skill (Cleric)":
+        case "Combat Skill (Fighter)":
+        case "Combat Skill (Mage)":
+        case "Combat Skill (Rogue)":
             return { characteristic1: "Strength", characteristic2: "Dexterity" };
     }
 }
@@ -219,7 +265,7 @@ export function getStartingSkillValue(skill: Skill, characteristics: Characteris
     return characteristics[startingValue.characteristic1] + characteristics[startingValue.characteristic2];
 }
 
-export function getStartingSkills(skills : Readonly<Skill[]>, characteristics: Characteristics): Skills {
+export function getStartingSkills(skills: Readonly<Skill[]>, characteristics: Characteristics): Skills {
     return skills.map(skill => ({ skill, value: getStartingSkillValue(skill, characteristics) }));
 }
 

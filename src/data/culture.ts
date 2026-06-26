@@ -34,7 +34,7 @@ export function getSkillOptions(culture: Culture): SkillOption[] {
                 { skills: ['Locale'], quickPick: 10 },
                 { skills: ['Perception'], quickPick: 10 },
                 { skills: ['Boating', 'Ride'], quickPick: 10 },
-                { skills: ['Navigation'], quickPick: 10 },
+                { skills: [{ name: 'Navigation' }], quickPick: 10 },
                 { skills: ['Seamanship', 'Survival'], quickPick: 10 },
                 { skills: ['Track'], quickPick: 10 },
             ];
@@ -47,8 +47,8 @@ export function getSkillOptions(culture: Culture): SkillOption[] {
                 { skills: ['Perception'], quickPick: 15 },
                 { skills: ['Boating', 'Ride'], quickPick: 10 },
                 { skills: ['Healing'], quickPick: 10 },
-                { skills: ['Language'], quickPick: 10 },
-                { skills: ['Lore'], quickPick: 15 },
+                { skills: [{ name: 'Language' }], quickPick: 10 },
+                { skills: [{ name: 'Lore' }], quickPick: 15 },
             ];
         case 'Civilizied, Street Smart':
             return [
@@ -59,7 +59,7 @@ export function getSkillOptions(culture: Culture): SkillOption[] {
                 { skills: ['Insight'], quickPick: 10 },
                 { skills: ['Locale'], quickPick: 10 },
                 { skills: ['Willpower'], quickPick: 10 },
-                { skills: ['Craft'], quickPick: 5 },
+                { skills: [{ name: 'Craft' }], quickPick: 5 },
                 { skills: ['Commerce'], quickPick: 10 },
                 { skills: ['Streetwise'], quickPick: 15 },
             ];
@@ -73,8 +73,8 @@ export function getSkillOptions(culture: Culture): SkillOption[] {
                 { skills: ['Locale'], quickPick: 15 },
                 { skills: ['Willpower'], quickPick: 10 },
                 { skills: ['Commerce'], quickPick: 10 },
-                { skills: ['Language', 'Lore'], quickPick: 10 },
-                { skills: ['Lore', 'Musicianship'], quickPick: 15 },
+                { skills: [{ name: 'Language' }, { name: 'Lore' }], quickPick: 10 },
+                { skills: [{ name: 'Lore' }, { name: 'Musicianship' }], quickPick: 15 },
             ];
         case 'Nomad, Warrior Type':
             return [
@@ -85,7 +85,7 @@ export function getSkillOptions(culture: Culture): SkillOption[] {
                 { skills: ['Stealth'], quickPick: 10 },
                 { skills: ['Athletics', 'Boating', 'Drive', 'Ride', 'Swim'], quickPick: 15 },
                 { skills: ['Athletics', 'Boating', 'Drive', 'Ride', 'Swim'], quickPick: 15 },
-                { skills: ['Navigation'], quickPick: 10 },
+                { skills: [{ name: 'Navigation' }], quickPick: 10 },
                 { skills: ['Survival'], quickPick: 10 },
                 { skills: ['Track'], quickPick: 10 },
             ];
@@ -99,8 +99,8 @@ export function getSkillOptions(culture: Culture): SkillOption[] {
                 { skills: ['Athletics', 'Boating', 'Drive', 'Ride', 'Swim'], quickPick: 5 },
                 { skills: ['Athletics', 'Boating', 'Drive', 'Ride', 'Swim'], quickPick: 5 },
                 { skills: ['Healing'], quickPick: 10 },
-                { skills: ['Language'], quickPick: 10 },
-                { skills: ['Lore'], quickPick: 10 },
+                { skills: [{ name: 'Language' }], quickPick: 10 },
+                { skills: [{ name: 'Lore' }], quickPick: 10 },
             ];
         case 'Primitive, Warrior Type':
             return [
@@ -113,7 +113,7 @@ export function getSkillOptions(culture: Culture): SkillOption[] {
                 { skills: ['Athletics', 'Boating', 'First Aid', 'Swim'], quickPick: 10 },
                 { skills: ['Survival'], quickPick: 10 },
                 { skills: ['Track'], quickPick: 10 },
-                { skills: ['Athletics', 'Boating', 'First Aid', 'Navigation', 'Swim'], quickPick: 10 },
+                { skills: ['Athletics', 'Boating', 'First Aid', { name: 'Navigation' }, 'Swim'], quickPick: 10 },
             ];
         case 'Primitive, Wise Person':
             return [
@@ -125,8 +125,8 @@ export function getSkillOptions(culture: Culture): SkillOption[] {
                 { skills: ['Stealth'], quickPick: 5 },
                 { skills: ['Athletics', 'Boating', 'Swim'], quickPick: 5 },
                 { skills: ['Healing'], quickPick: 10 },
-                { skills: ['Language'], quickPick: 10 },
-                { skills: ['Lore'], quickPick: 15 },
+                { skills: [{ name: 'Language' }], quickPick: 10 },
+                { skills: [{ name: 'Lore' }], quickPick: 15 },
             ];
         case 'Dwarf':
             return [
@@ -138,7 +138,7 @@ export function getSkillOptions(culture: Culture): SkillOption[] {
                 { skills: ['Perception'], quickPick: 5 },
                 { skills: ['Willpower'], quickPick: 10 },
                 { skills: ['Commerce', 'Mechanisms'], quickPick: 10 },
-                { skills: ['Craft'], quickPick: 10 },
+                { skills: [{ name: 'Craft' }], quickPick: 10 },
                 { skills: ['Survival'], quickPick: 10 },
             ];
         case 'Elf':
@@ -151,8 +151,8 @@ export function getSkillOptions(culture: Culture): SkillOption[] {
                 { skills: ['Stealth'], quickPick: 10 },
                 { skills: ['Willpower'], quickPick: 10 },
                 { skills: ['Survival'], quickPick: 10 },
-                { skills: ['Language', 'Lore', 'Musicianship'], quickPick: 10 },
-                { skills: ['Language', 'Lore', 'Musicianship'], quickPick: 10 },
+                { skills: [{ name: 'Language' }, { name: 'Lore' }, { name: 'Musicianship' }], quickPick: 10 },
+                { skills: [{ name: 'Language' }, { name: 'Lore' }, { name: 'Musicianship' }], quickPick: 10 },
             ];
         case 'Gnome':
             return [
@@ -164,7 +164,7 @@ export function getSkillOptions(culture: Culture): SkillOption[] {
                 { skills: ['Stealth'], quickPick: 10 },
                 { skills: ['Willpower'], quickPick: 10 },
                 { skills: ['Commerce'], quickPick: 10 },
-                { skills: ['Craft'], quickPick: 10 },
+                { skills: [{ name: 'Craft' }], quickPick: 10 },
                 { skills: ['Mechanisms', 'Survival'], quickPick: 10 },
             ];
         case 'Raised as Elf':
@@ -176,9 +176,9 @@ export function getSkillOptions(culture: Culture): SkillOption[] {
                 { skills: ['Perception'], quickPick: 10 },
                 { skills: ['Stealth'], quickPick: 10 },
                 { skills: ['Willpower'], quickPick: 10 },
-                { skills: ['Language'], quickPick: 10 },
-                { skills: ['Lore'], quickPick: 10 },
-                { skills: ['Musicianship', 'Survival'], quickPick: 10 },
+                { skills: [{ name: 'Language' }], quickPick: 10 },
+                { skills: [{ name: 'Lore' }], quickPick: 10 },
+                { skills: [{ name: 'Musicianship' }, 'Survival' ], quickPick: 10 },
             ];
         case 'Raised as Orc':
             return [
@@ -189,7 +189,7 @@ export function getSkillOptions(culture: Culture): SkillOption[] {
                 { skills: ['First Aid'], quickPick: 5 },
                 { skills: ['Locale'], quickPick: 5 },
                 { skills: ['Perception'], quickPick: 5 },
-                { skills: ['Navigation'], quickPick: 10 },
+                { skills: [{ name: 'Navigation' }], quickPick: 10 },
                 { skills: ['Survival'], quickPick: 10 },
                 { skills: ['Track'], quickPick: 10 },
             ];
@@ -202,8 +202,8 @@ export function getSkillOptions(culture: Culture): SkillOption[] {
                 { skills: ['Perception'], quickPick: 15 },
                 { skills: ['Stealth'], quickPick: 15 },
                 { skills: ['Willpower'], quickPick: 15 },
-                { skills: ['Craft'], quickPick: 10 },
-                { skills: ['Musicianship'], quickPick: 5 },
+                { skills: [{ name: 'Craft' }], quickPick: 10 },
+                { skills: [{ name: 'Musicianship' }], quickPick: 5 },
                 { skills: ['Streetwise'], quickPick: 10 },
             ];
         }
