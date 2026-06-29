@@ -1,4 +1,4 @@
-import { areEqual, getDisplayName, type Skill, type SkillOption, type Skills } from "../data/skill";
+import { areEqual, getDisplayName, getSkillName, isSpecialistProfessionalSkill, type Skill, type SkillOption, type Skills } from "../data/skill";
 
 type Props = {
     readonly skillOptions: SkillOption[];
@@ -11,7 +11,12 @@ export function SkillSelector({ skillOptions, skills, setSkills }: Props) {
     const selectableOptions = skillOptions.map((option, index) => ({ ...option, index })).filter(option => option.skills.length > 1);
 
     function getOptions(index: number) {
-        const options = skillOptions[index].skills.map((skill, i) => ({ skill, index: i })).filter(skill => skills.findIndex(s => areEqual(s, skill.skill)) === -1 || areEqual(skills[index], skill.skill));
+        const options = skillOptions[index].skills
+            .map((skill, i) => ({ skill, index: i }))
+            .filter(skill => 
+                skills.findIndex(s => areEqual(s, skill.skill)) === -1 ||
+                getSkillName(skills[index]) === getSkillName(skill.skill)
+            );
         return options.map(skill => ({ skill: skill.skill, index: skill.index, value: skillOptions[index].quickPick }));
     }
 
@@ -21,14 +26,25 @@ export function SkillSelector({ skillOptions, skills, setSkills }: Props) {
         setSkills(newSkills);
     }
 
+    function updateSpecialization(index: number, specialization: string) {
+        const newSkills = [...skills];
+        const selectedSkill = skills[index];
+        if (!isSpecialistProfessionalSkill(selectedSkill)) {
+            throw new Error(`Skill at index ${index} is not a specialist professional skill`);
+        }
+        newSkills[index] = { ...selectedSkill, specialization };
+        setSkills(newSkills);
+    }
+
     return (
         <>
             {selectableOptions.map(option => {
                 const selectedSkill = skills[option.index];
-                const selectedOption = option.skills.findIndex(skill => areEqual(skill, selectedSkill));                
+                const selectedOptionIndex = option.skills.findIndex(skill => getSkillName(skill) === getSkillName(selectedSkill));
+                const selectedOption = option.skills[selectedOptionIndex];
                 return (
-                    <div key={option.index}>
-                        <select value={selectedOption} onChange={e => {
+                    <div key={option.index} className="grid">
+                        <select value={selectedOptionIndex} onChange={e => {
                             const skillIndex = parseInt(e.target.value, 10);
                             const skill = skillOptions[option.index].skills[skillIndex];
                             updateSkill(option.index, skill);
@@ -39,6 +55,14 @@ export function SkillSelector({ skillOptions, skills, setSkills }: Props) {
                                 </option>
                             ))}
                         </select>
+                        <div>
+                            {isSpecialistProfessionalSkill(selectedOption) && !selectedOption.specialization && (
+                                <input type="text" placeholder="Enter specialization" value={isSpecialistProfessionalSkill(selectedSkill) && selectedSkill.specialization || ''}
+                                    onChange={e => {
+                                        updateSpecialization(option.index, e.target.value);
+                                    }} />
+                            )}
+                        </div>
                     </div>
                 );
             })}

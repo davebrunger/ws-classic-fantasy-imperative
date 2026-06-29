@@ -1,5 +1,5 @@
 import type { Characteristics } from "../data/characterisic";
-import { combineSkills, compare, getStartingSkills, isCombatSkill, isProfessionalSkill, standardSkillNames, type Skill, type Skills } from "../data/skill";
+import { combineSkills, compare, getStartingSkills, isCombatSkill, isProfessionalSkill, isSpecialistProfessionalSkill, standardSkillNames, type Skill, type Skills } from "../data/skill";
 import { SkillSelector } from "./SkillSelector";
 import { SkillTable } from "./SkillTable";
 import { getSkillOptions, type Class as ClassType } from "../data/class";
@@ -55,7 +55,7 @@ export function ClassSkills({ speciesSkills, characteristics, culturalSkills, ch
                 { name: "Class Modifier", values: classSkills }
             ]} />
             <button onClick={back}>Back</button>
-            <button style={{ float: 'right' }} onClick={next}>Next</button>
+            <button style={{ float: 'right' }} onClick={next} disabled={classSkills.some(s => isSpecialistProfessionalSkill(s.skill) && !s.skill.specialization)}>Next</button>
         </>
     );
 }

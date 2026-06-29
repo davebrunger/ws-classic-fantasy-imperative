@@ -1,6 +1,6 @@
 import type { Characteristics } from "../data/characterisic";
 import { getSkillOptions, type Culture } from "../data/culture";
-import { getStartingSkills, isProfessionalSkill, standardSkillNames, type Skill, type Skills } from "../data/skill";
+import { getStartingSkills, isProfessionalSkill, isSpecialistProfessionalSkill, standardSkillNames, type Skill, type Skills } from "../data/skill";
 import { SkillSelector } from "./SkillSelector";
 import { SkillTable } from "./SkillTable";
 
@@ -42,7 +42,7 @@ export function CulturalSkills({ speciesSkills, characteristics, culture, cultur
                 { name: "Cultural Modifier", values: culturalSkills }
             ]} />
             <button onClick={back}>Back</button>
-            <button style={{ float: 'right' }} onClick={next}>Next</button>
+            <button style={{ float: 'right' }} onClick={next} disabled={culturalSkills.some(s => isSpecialistProfessionalSkill(s.skill) && !s.skill.specialization)}>Next</button>
         </>
     );
 }
