@@ -1,7 +1,7 @@
 import { rollCharacteristics, type Characteristics } from "./characterisic";
 import { getSkillOptions as getClassSkillOptions, type Class } from "./class";
 import { getSkillOptions as getCulturalSkillOptions, type Culture } from "./culture";
-import { areEqual, type Skill, type SkillOption, type Skills } from "./skill";
+import { areEqual, isSpecialistProfessionalSkill, type Skill, type SkillOption, type Skills } from "./skill";
 import { getSkillOptions as getSpeciesSkillOptions, type Species } from "./species";
 
 export const stepNames = ["Species", "Characteristics", "Name and Concept", "Culture", "Cultural Skills", "Class", "Class Skills"] as const;
@@ -16,13 +16,17 @@ function buildInitialSkills(skills: SkillOption[]): Skills {
     return skills.reduce((acc, option) => {
         let index = 0;
         while (index < option.skills.length && acc.some(s => areEqual(s.skill, option.skills[index]))) {
+            const optionSkill = option.skills[index];
+            if (isSpecialistProfessionalSkill(optionSkill) && !optionSkill.specialization) {
+                break;
+            }
             index++;
         }
         acc.push({ skill: option.skills[index], value: option.quickPick });
         return acc;
     }, [] as { readonly skill: Skill, readonly value: number }[]);
 }
-
+ 
 export function next(
     currentStep: Step,
     setStep: (step: Step) => void,

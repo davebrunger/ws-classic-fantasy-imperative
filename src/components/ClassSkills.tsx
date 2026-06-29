@@ -1,6 +1,6 @@
 import type { Characteristics } from "../data/characterisic";
-import { combineSkills, compare, getStartingSkills, isCombatSkill, isProfessionalSkill, isSpecialistProfessionalSkill, standardSkillNames, type Skill, type Skills } from "../data/skill";
-import { SkillSelector } from "./SkillSelector";
+import { combineSkills, compare, getDisplayName, getStartingSkills, isCombatSkill, isProfessionalSkill, isSpecialistProfessionalSkill, standardSkillNames, type Skill, type Skills } from "../data/skill";
+import { SkillSelectors } from "./SkillSelectors";
 import { SkillTable } from "./SkillTable";
 import { getSkillOptions, type Class as ClassType } from "../data/class";
 
@@ -26,7 +26,7 @@ export function ClassSkills({ speciesSkills, characteristics, culturalSkills, ch
         setClassSkills(newClassSkills);
     }
 
-    const combinedSkillNames = [...new Set([...culturalSkills.map(cs => cs.skill), ...classSkills.map(cs => cs.skill)])].sort(compare);
+    const combinedSkillNames = [...new Map([...culturalSkills.map(cs => cs.skill), ...classSkills.map(cs => cs.skill)].map(skill => [getDisplayName(skill), skill])).values()].sort((a, b) => compare(a, b));
 
     const professionalSkillNames = combinedSkillNames.filter(isProfessionalSkill);
 
@@ -36,7 +36,7 @@ export function ClassSkills({ speciesSkills, characteristics, culturalSkills, ch
 
     return (
         <>
-            <SkillSelector skillOptions={skillOptions} skills={classSkillArray} setSkills={setClassSkillsArray} />
+            <SkillSelectors skillOptions={skillOptions} skills={classSkillArray} setSkills={setClassSkillsArray} />
             <h4>Standard Skills</h4>
             <SkillTable skills={standardSkillNames} columns={[
                 { name: "Starting Value", values: getStartingSkills(standardSkillNames, characteristics) },

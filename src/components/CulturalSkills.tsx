@@ -1,7 +1,7 @@
 import type { Characteristics } from "../data/characterisic";
 import { getSkillOptions, type Culture } from "../data/culture";
 import { getStartingSkills, isProfessionalSkill, isSpecialistProfessionalSkill, standardSkillNames, type Skill, type Skills } from "../data/skill";
-import { SkillSelector } from "./SkillSelector";
+import { SkillSelectors } from "./SkillSelectors";
 import { SkillTable } from "./SkillTable";
 
 type Props = {
@@ -29,7 +29,7 @@ export function CulturalSkills({ speciesSkills, characteristics, culture, cultur
     
     return (
         <>
-            <SkillSelector skillOptions={skillOptions} skills={culturalSkillArray} setSkills={setCulturalSkillsArray} />
+            <SkillSelectors skillOptions={skillOptions} skills={culturalSkillArray} setSkills={setCulturalSkillsArray} />
             <h4>Standard Skills</h4>
             <SkillTable skills={standardSkillNames} columns={[
                 { name: "Starting Value", values: getStartingSkills(standardSkillNames, characteristics) },
