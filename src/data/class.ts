@@ -49,8 +49,7 @@ export function getSkillOptions(characterClass: Class): SkillOption[] {
                 { skills: ['Arcane Casting'], quickPick: 15 },
                 { skills: ['Arcane Knowledge'], quickPick: 15 },
                 { skills: [{ name: 'Language' }], quickPick: 5 },
-                // { skills: [{ name: 'Language' }, { name: 'Lore' }], quickPick: 5 },
-                // Missing due to no differentiation between different types of Lore in the current skill system
+                { skills: [{ name: 'Language' }, { name: 'Lore' }], quickPick: 5 },
                 { skills: [{ name: 'Lore', specialization: 'Alchemy' }], quickPick: 10 },
             ];
         case 'Rogue':

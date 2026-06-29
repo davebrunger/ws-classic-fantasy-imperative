@@ -8,14 +8,18 @@ type Props = {
 
 export function SkillSelector({ skillOptions, skills, setSkills }: Props) {
 
-    const selectableOptions = skillOptions.map((option, index) => ({ ...option, index })).filter(option => option.skills.length > 1);
+    const selectableOptions = skillOptions.map((option, index) => ({ ...option, index })).filter(option =>
+        option.skills.length > 1 ||
+        (isSpecialistProfessionalSkill(option.skills[0]) && !option.skills[0].specialization)
+    );
 
     function getOptions(index: number) {
         const options = skillOptions[index].skills
             .map((skill, i) => ({ skill, index: i }))
-            .filter(skill => 
+            .filter(skill =>
                 skills.findIndex(s => areEqual(s, skill.skill)) === -1 ||
-                getSkillName(skills[index]) === getSkillName(skill.skill)
+                getSkillName(skills[index]) === getSkillName(skill.skill) ||
+                (isSpecialistProfessionalSkill(skill.skill) && !skill.skill.specialization)
             );
         return options.map(skill => ({ skill: skill.skill, index: skill.index, value: skillOptions[index].quickPick }));
     }
@@ -60,7 +64,8 @@ export function SkillSelector({ skillOptions, skills, setSkills }: Props) {
                                 <input type="text" placeholder="Enter specialization" value={isSpecialistProfessionalSkill(selectedSkill) && selectedSkill.specialization || ''}
                                     onChange={e => {
                                         updateSpecialization(option.index, e.target.value);
-                                    }} />
+                                    }}
+                                />
                             )}
                         </div>
                     </div>
