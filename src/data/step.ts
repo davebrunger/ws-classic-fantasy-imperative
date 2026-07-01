@@ -1,10 +1,10 @@
 import { rollCharacteristics, type Characteristics } from "./characterisic";
 import { getSkillOptions as getClassSkillOptions, type Class } from "./class";
 import { getSkillOptions as getCulturalSkillOptions, type Culture } from "./culture";
-import { areEqual, isSpecialistProfessionalSkill, type Skill, type SkillOption, type Skills } from "./skill";
+import { areEqual, compare, getUniqueSkills, isSpecialistProfessionalSkill, type Skill, type SkillOption, type Skills } from "./skill";
 import { getSkillOptions as getSpeciesSkillOptions, type Species } from "./species";
 
-export const stepNames = ["Species", "Characteristics", "Name and Concept", "Culture", "Cultural Skills", "Class", "Class Skills"] as const;
+export const stepNames = ["Species", "Characteristics", "Name and Concept", "Culture", "Cultural Skills", "Class", "Class Skills", "Hobby or Interest", "Bonus Skill Points"] as const;
 
 export type Step = typeof stepNames[number];
 
@@ -34,6 +34,7 @@ export function next(
     setCharacteristics: (characteristics?: Characteristics) => void,
     setCulturalSkills: (skills?: Skills) => void,
     setClassSkills: (skills?: Skills) => void,
+    setBonusSkillPoints: (skills?: Skills) => void,
     species?: Species,
     speciesSkills?: Skills,
     characteristics?: Characteristics,
@@ -41,6 +42,8 @@ export function next(
     culturalSkills?: Skills,
     characterClass?: Class,
     classSkills?: Skills,
+    hobbyOrInterest?: Skill,
+    bonusSkillPoints?: Skills,
 ): boolean {
     switch (currentStep) {
         case "Species":
@@ -73,6 +76,21 @@ export function next(
             }
             setStep("Class Skills");
             return true;
+        case "Class Skills":
+            setStep("Hobby or Interest");
+            return true;
+        case "Hobby or Interest":
+            if (!bonusSkillPoints) {
+                const allSkills = [
+                    ...culturalSkills!.map(cs => cs.skill), 
+                    ...classSkills!.map(cs => cs.skill),
+                    ...(hobbyOrInterest ? [hobbyOrInterest] : [])
+                ];
+                const combinedSkillNames = getUniqueSkills(allSkills).sort((a, b) => compare(a, b));
+                setBonusSkillPoints(combinedSkillNames.map(skill => ({ skill, value: 0 })));
+            }
+            setStep("Bonus Skill Points");
+            return true;
     }
     return false;
 };
@@ -88,6 +106,8 @@ export function back(
     setCulturalSkills: (skills?: Skills) => void,
     setClass: (characterClass?: Class) => void,
     setClassSkills: (skills?: Skills) => void,
+    setHobbyOrInterest: (hobbyOrInterest?: Skill) => void,
+    setBonusSkillPoints: (skills?: Skills) => void,
 ): boolean {
     switch (currentStep) {
         case "Characteristics":
@@ -115,6 +135,14 @@ export function back(
         case "Class Skills":
             setClassSkills(undefined);
             setStep("Class");
+            return true;
+        case "Hobby or Interest":
+            setHobbyOrInterest(undefined);
+            setStep("Class Skills");
+            return true;
+        case "Bonus Skill Points":
+            setBonusSkillPoints(undefined);
+            setStep("Hobby or Interest");
             return true;
     }
     return false;

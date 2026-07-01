@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { Species as SpeciesType } from "../data/species";
 import { type Characteristics as CharacteristicsType } from "../data/characterisic";
 import { type Culture as CultureType } from "../data/culture";
-import type { Skills } from "../data/skill";
+import type { Skill, Skills } from "../data/skill";
 import { Species } from "./Species";
 import { Characteristics } from "./Characteristics";
 import { Culture } from "./Culture";
@@ -26,17 +26,21 @@ export function App() {
     const [culturalSkills, setCulturalSkills] = useState<Skills | undefined>(undefined);
     const [characterClass, setCharacterClass] = useState<ClassType | undefined>(undefined);
     const [classSkills, setClassSkills] = useState<Skills | undefined>(undefined);
+    const [hobbyOrInterest, setHobbyOrInterest] = useState<Skill | undefined>(undefined);
+    const [bonusSkillPoints, setBonusSkillPoints] = useState<Skills | undefined>(undefined);
 
     const [step, setStep] = useState<Step>("Species");
 
     function previousStep() {
-        if (!back(step, setStep, setSpeciesSkills, setCharacteristics, setName, setConcept, setCulture, setCulturalSkills, setCharacterClass, setClassSkills)) {
+        if (!back(step, setStep, setSpeciesSkills, setCharacteristics, setName, setConcept, setCulture, setCulturalSkills, setCharacterClass, setClassSkills, setHobbyOrInterest, 
+            setBonusSkillPoints)) {
             throw new Error("Cannot go back from this step.");
         }
     }
 
     function nextStep() {
-        if (!next(step, setStep, setSpeciesSkills, setCharacteristics, setCulturalSkills, setClassSkills, species, speciesSkills, characteristics, culture, culturalSkills, characterClass, classSkills)) {
+        if (!next(step, setStep, setSpeciesSkills, setCharacteristics, setCulturalSkills, setClassSkills, setBonusSkillPoints, species, speciesSkills, characteristics, culture,
+            culturalSkills, characterClass, classSkills, hobbyOrInterest, bonusSkillPoints)) {
             alert("Character creation complete!");
         }
     }
