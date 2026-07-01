@@ -64,7 +64,7 @@ export const specialistProfessionalSkillNames = [
     "Culture",
     "Language",
     "Lore",
-    "Mechanisms",
+    // "Mechanisms",
     "Musicianship",
     "Navigation",
 ] as const;

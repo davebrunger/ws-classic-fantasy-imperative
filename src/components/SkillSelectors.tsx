@@ -37,13 +37,13 @@ export function SkillSelectors({ skillOptions, skills, setSkills, error, setErro
         return options.map(skill => ({ skill: skill.skill, index: skill.index, value: skillOptions[index].quickPick }));
     }
 
-    function updateSkill(index: number, skill: Skill) {
+    function setSkill(index: number, skill: Skill) {
         const newSkills = [...skills];
         newSkills[index] = skill;
         setSkills(newSkills);
     }
 
-    function updateSpecialization(index: number, specialization: string) {
+    function setSpecialization(index: number, specialization: string) {
         const newSkills = [...skills];
         const selectedSkill = skills[index];
         if (!isSpecialistProfessionalSkill(selectedSkill)) {
@@ -60,8 +60,9 @@ export function SkillSelectors({ skillOptions, skills, setSkills, error, setErro
                     key={option.index}
                     skillIndex={option.index}
                     skill={skills[option.index]}
-                    updateSkill={(skill: Skill) => updateSkill(option.index, skill)}
-                    updateSpecialization={(specialization: string) => updateSpecialization(option.index, specialization)}
+                    required={true}
+                    setSkill={(skill?: Skill) => setSkill(option.index, skill!)}
+                    setSpecialization={(specialization: string) => setSpecialization(option.index, specialization)}
                     options={getOptions(option.index)}
                 />
             ))}
