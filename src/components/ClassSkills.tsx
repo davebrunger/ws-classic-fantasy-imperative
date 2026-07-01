@@ -1,5 +1,5 @@
 import type { Characteristics } from "../data/characterisic";
-import { combineSkills, compare, getStartingSkills, getUniqueSkills, isCombatSkill, isProfessionalSkill, isSpecialistProfessionalSkill, standardSkillNames, type Skill, type Skills } from "../data/skill";
+import { combineSkills, compareSkills, getStartingSkills, getUniqueSkills, isCombatSkill, isProfessionalSkill, isSpecialistProfessionalSkill, standardSkillNames, type Skill, type Skills } from "../data/skill";
 import { SkillSelectors } from "./SkillSelectors";
 import { SkillTable } from "./SkillTable";
 import { getSkillOptions, type Class as ClassType } from "../data/class";
@@ -29,7 +29,7 @@ export function ClassSkills({ speciesSkills, characteristics, culturalSkills, ch
         setClassSkills(newClassSkills);
     }
 
-    const combinedSkillNames = getUniqueSkills([...culturalSkills.map(cs => cs.skill), ...classSkills.map(cs => cs.skill)]).sort((a, b) => compare(a, b));
+    const combinedSkillNames = getUniqueSkills([...culturalSkills.map(cs => cs.skill), ...classSkills.map(cs => cs.skill)]).sort((a, b) => compareSkills(a, b));
 
     const professionalSkillNames = combinedSkillNames.filter(isProfessionalSkill);
 

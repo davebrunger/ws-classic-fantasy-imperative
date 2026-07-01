@@ -1,5 +1,5 @@
 import React from "react";
-import { areEqual, getSkillName, getUniqueSkills, isSpecialistProfessionalSkill, type Skill, type SkillOption } from "../data/skill";
+import { areSkillsEqual, getSkillName, getUniqueSkills, isSpecialistProfessionalSkill, type Skill, type SkillOption } from "../data/skill";
 import { SkillSelector } from "./SkillSelector";
 
 type Props = {
@@ -30,7 +30,7 @@ export function SkillSelectors({ skillOptions, skills, setSkills, error, setErro
         const options = skillOptions[index].skills
             .map((skill, i) => ({ skill, index: i }))
             .filter(skill =>
-                skills.findIndex(s => areEqual(s, skill.skill)) === -1 ||
+                skills.findIndex(s => areSkillsEqual(s, skill.skill)) === -1 ||
                 getSkillName(skills[index]) === getSkillName(skill.skill) ||
                 (isSpecialistProfessionalSkill(skill.skill) && !skill.skill.specialization)
             );

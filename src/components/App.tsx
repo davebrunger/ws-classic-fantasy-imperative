@@ -15,6 +15,7 @@ import { back, next, type Step } from "../data/step";
 import { Header } from "./Header";
 import { CharacteristicsTable } from "./CharacteristicsTable";
 import { HobbyOrInterest } from "./HobbyOrInterest";
+import { BonusSkillPoints } from "./BonusSkillPoints";
 
 export function App() {
 
@@ -70,6 +71,9 @@ export function App() {
             {step === "Hobby or Interest" &&
                 <HobbyOrInterest culturalSkills={culturalSkills!} classSkills={classSkills!} hobbyOrInterest={hobbyOrInterest} setHobbyOrInterest={setHobbyOrInterest}
                     back={previousStep} next={nextStep} />}
+            {step === "Bonus Skill Points" &&
+                <BonusSkillPoints speciesSkills={speciesSkills!} characteristics={characteristics!} culturalSkills={culturalSkills!} classSkills={classSkills!} bonusSkillPoints={bonusSkillPoints!} 
+                    setBonusSkillPoints={setBonusSkillPoints} back={previousStep} next={nextStep} hobbyOrInterest={hobbyOrInterest} />}
         </main>
     );
 }

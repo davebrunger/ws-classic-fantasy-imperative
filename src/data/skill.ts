@@ -279,23 +279,23 @@ export function getStartingStandardSkills(characteristics: Characteristics): Ski
     return getStartingSkills(standardSkillNames, characteristics);
 }
 
-    export function areEqual(skill1: Skill, skill2: Skill): boolean {
+export function areSkillsEqual(skill1: Skill, skill2: Skill): boolean {
     return isStandardSkill(skill1) && isStandardSkill(skill2) && skill1 === skill2
         || isGeneralProfessionalSkill(skill1) && isGeneralProfessionalSkill(skill2) && skill1 === skill2
         || isCombatSkill(skill1) && isCombatSkill(skill2) && skill1 === skill2
         || !isStandardSkill(skill1) && !isStandardSkill(skill2)
-            && !isGeneralProfessionalSkill(skill1) && !isGeneralProfessionalSkill(skill2)
-            && !isCombatSkill(skill1) && !isCombatSkill(skill2)
-            && skill1.name === skill2.name
-            && skill1.specialization === skill2.specialization;
+        && !isGeneralProfessionalSkill(skill1) && !isGeneralProfessionalSkill(skill2)
+        && !isCombatSkill(skill1) && !isCombatSkill(skill2)
+        && skill1.name === skill2.name
+        && skill1.specialization === skill2.specialization;
 }
 
 export function combineSkills(skills: Skills, extraSkills: Skills): Skills {
     let combinedSkills = [...skills];
     for (const extraSkill of extraSkills) {
-        const existingSkill = combinedSkills.find(s => areEqual(s.skill, extraSkill.skill));
+        const existingSkill = combinedSkills.find(s => areSkillsEqual(s.skill, extraSkill.skill));
         if (existingSkill) {
-            combinedSkills = combinedSkills.map(s => areEqual(s.skill, extraSkill.skill) ? { skill: s.skill, value: s.value + extraSkill.value } : s);
+            combinedSkills = combinedSkills.map(s => areSkillsEqual(s.skill, extraSkill.skill) ? { skill: s.skill, value: s.value + extraSkill.value } : s);
         } else {
             combinedSkills.push(extraSkill);
         }
@@ -303,7 +303,7 @@ export function combineSkills(skills: Skills, extraSkills: Skills): Skills {
     return combinedSkills;
 }
 
-export function compare(skill1: Skill, skill2: Skill): number {
+export function compareSkills(skill1: Skill, skill2: Skill): number {
     const name1 = getDisplayName(skill1);
     const name2 = getDisplayName(skill2);
     return name1.localeCompare(name2);

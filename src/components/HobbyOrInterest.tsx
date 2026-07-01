@@ -1,4 +1,4 @@
-import { areEqual, compare, generalProfessionalSkillNames, getUniqueSkills, isSpecialistProfessionalSkill, specialistProfessionalSkillNames, type Skill, type Skills } from "../data/skill";
+import { areSkillsEqual, compareSkills, generalProfessionalSkillNames, getUniqueSkills, isSpecialistProfessionalSkill, specialistProfessionalSkillNames, type Skill, type Skills } from "../data/skill";
 import { SkillSelector } from "./SkillSelector";
 
 type Props = {
@@ -13,12 +13,12 @@ type Props = {
 export function HobbyOrInterest({ culturalSkills, classSkills, hobbyOrInterest, setHobbyOrInterest, back, next }: Props) {
 
     const combinedSkills = getUniqueSkills([...culturalSkills.map(cs => cs.skill), ...classSkills.map(cs => cs.skill)]);
-    const availableGeneralProfessionalSkills = generalProfessionalSkillNames.filter(skill => !combinedSkills.some(s => areEqual(skill, s)));
+    const availableGeneralProfessionalSkills = generalProfessionalSkillNames.filter(skill => !combinedSkills.some(s => areSkillsEqual(skill, s)));
     const specialistProfessionalSkills = specialistProfessionalSkillNames.map(name => ({ name }));
     const availableProfessionalSkills = [...availableGeneralProfessionalSkills, ...specialistProfessionalSkills]
-        .sort((a, b) => compare(a, b))
+        .sort((a, b) => compareSkills(a, b))
         .map((skill, index) => ({ skill, index, value: 0 }));
-    const error = !!hobbyOrInterest && combinedSkills.some(s => areEqual(s, hobbyOrInterest)) ? "Hobby or Interest cannot match any previously selected skills." : undefined;
+    const error = !!hobbyOrInterest && combinedSkills.some(s => areSkillsEqual(s, hobbyOrInterest)) ? "Hobby or Interest cannot match any previously selected skills." : undefined;
 
     function setSpecialization(specialization?: string) {
         if (!isSpecialistProfessionalSkill(hobbyOrInterest)) {

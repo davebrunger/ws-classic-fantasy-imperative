@@ -1,7 +1,7 @@
 import { rollCharacteristics, type Characteristics } from "./characterisic";
 import { getSkillOptions as getClassSkillOptions, type Class } from "./class";
 import { getSkillOptions as getCulturalSkillOptions, type Culture } from "./culture";
-import { areEqual, compare, getUniqueSkills, isSpecialistProfessionalSkill, type Skill, type SkillOption, type Skills } from "./skill";
+import { areSkillsEqual, compareSkills, getUniqueSkills, isSpecialistProfessionalSkill, standardSkillNames, type Skill, type SkillOption, type Skills } from "./skill";
 import { getSkillOptions as getSpeciesSkillOptions, type Species } from "./species";
 
 export const stepNames = ["Species", "Characteristics", "Name and Concept", "Culture", "Cultural Skills", "Class", "Class Skills", "Hobby or Interest", "Bonus Skill Points"] as const;
@@ -15,7 +15,7 @@ export function isStep(value: unknown): value is Step {
 function buildInitialSkills(skills: SkillOption[]): Skills {
     return skills.reduce((acc, option) => {
         let index = 0;
-        while (index < option.skills.length && acc.some(s => areEqual(s.skill, option.skills[index]))) {
+        while (index < option.skills.length && acc.some(s => areSkillsEqual(s.skill, option.skills[index]))) {
             const optionSkill = option.skills[index];
             if (isSpecialistProfessionalSkill(optionSkill) && !optionSkill.specialization) {
                 break;
@@ -82,11 +82,12 @@ export function next(
         case "Hobby or Interest":
             if (!bonusSkillPoints) {
                 const allSkills = [
+                    ...standardSkillNames,
                     ...culturalSkills!.map(cs => cs.skill), 
                     ...classSkills!.map(cs => cs.skill),
                     ...(hobbyOrInterest ? [hobbyOrInterest] : [])
                 ];
-                const combinedSkillNames = getUniqueSkills(allSkills).sort((a, b) => compare(a, b));
+                const combinedSkillNames = getUniqueSkills(allSkills).sort((a, b) => compareSkills(a, b));
                 setBonusSkillPoints(combinedSkillNames.map(skill => ({ skill, value: 0 })));
             }
             setStep("Bonus Skill Points");
