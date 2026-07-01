@@ -1,13 +1,25 @@
-import { areEqual, getSkillName, isSpecialistProfessionalSkill, type Skill, type SkillOption } from "../data/skill";
+import React from "react";
+import { areEqual, getSkillName, getUniqueSkills, isSpecialistProfessionalSkill, type Skill, type SkillOption } from "../data/skill";
 import { SkillSelector } from "./SkillSelector";
 
 type Props = {
     readonly skillOptions: SkillOption[];
     readonly skills: Skill[];
     readonly setSkills: (skills: Skill[]) => void;
+    readonly error?: string;
+    readonly setError: (error?: string) => void;
 }
 
-export function SkillSelectors({ skillOptions, skills, setSkills }: Props) {
+export function SkillSelectors({ skillOptions, skills, setSkills, error, setError }: Props) {
+
+        React.useEffect(() => {
+        const uniqueSkills = getUniqueSkills(skills);
+        if (uniqueSkills.length !== skills.length) {
+            setError("No selections can match for each step.");
+        } else {
+            setError(undefined);
+        }
+    }, [skills]);
 
     const selectableOptions = skillOptions.map((option, index) => ({ ...option, index })).filter(option =>
         option.skills.length > 1 ||
@@ -46,12 +58,21 @@ export function SkillSelectors({ skillOptions, skills, setSkills }: Props) {
             {selectableOptions.map(option => (
                 <SkillSelector
                     key={option.index}
+                    skillIndex={option.index}
                     skill={skills[option.index]}
                     updateSkill={(skill: Skill) => updateSkill(option.index, skill)}
                     updateSpecialization={(specialization: string) => updateSpecialization(option.index, specialization)}
                     options={getOptions(option.index)}
                 />
             ))}
+            {error && (
+                <div className="grid">
+                    <div></div>
+                    <div>
+                        <small style={{ color: "var(--pico-del-color)" }}>{error}</small>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

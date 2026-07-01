@@ -308,3 +308,7 @@ export function compare(skill1: Skill, skill2: Skill): number {
     const name2 = getDisplayName(skill2);
     return name1.localeCompare(name2);
 }
+
+export function getUniqueSkills(skills: Skill[]): Skill[] {
+    return [...new Map(skills.map(s => [getDisplayName(s), s])).values()];
+}

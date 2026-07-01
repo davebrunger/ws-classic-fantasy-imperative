@@ -1,3 +1,4 @@
+import React from "react";
 import type { Characteristics } from "../data/characterisic";
 import { getSkillOptions, type Culture } from "../data/culture";
 import { getStartingSkills, isProfessionalSkill, isSpecialistProfessionalSkill, standardSkillNames, type Skill, type Skills } from "../data/skill";
@@ -16,6 +17,8 @@ type Props = {
 
 export function CulturalSkills({ speciesSkills, characteristics, culture, culturalSkills, setCulturalSkills, back, next }: Props) {
 
+    const [selectorError, setSelectorError] = React.useState<string | undefined>(undefined);
+
     const skillOptions = getSkillOptions(culture);
 
     const culturalSkillArray = culturalSkills.map(skill => skill.skill);
@@ -29,7 +32,7 @@ export function CulturalSkills({ speciesSkills, characteristics, culture, cultur
     
     return (
         <>
-            <SkillSelectors skillOptions={skillOptions} skills={culturalSkillArray} setSkills={setCulturalSkillsArray} />
+            <SkillSelectors skillOptions={skillOptions} skills={culturalSkillArray} setSkills={setCulturalSkillsArray} error={selectorError} setError={setSelectorError} />
             <h4>Standard Skills</h4>
             <SkillTable skills={standardSkillNames} columns={[
                 { name: "Starting Value", values: getStartingSkills(standardSkillNames, characteristics) },
@@ -42,7 +45,7 @@ export function CulturalSkills({ speciesSkills, characteristics, culture, cultur
                 { name: "Cultural Modifier", values: culturalSkills }
             ]} />
             <button onClick={back}>Back</button>
-            <button style={{ float: 'right' }} onClick={next} disabled={culturalSkills.some(s => isSpecialistProfessionalSkill(s.skill) && !s.skill.specialization)}>Next</button>
+            <button style={{ float: 'right' }} onClick={next} disabled={!!selectorError || culturalSkills.some(s => isSpecialistProfessionalSkill(s.skill) && !s.skill.specialization)}>Next</button>
         </>
     );
 }

@@ -1,8 +1,9 @@
 import type { Characteristics } from "../data/characterisic";
-import { combineSkills, compare, getDisplayName, getStartingSkills, isCombatSkill, isProfessionalSkill, isSpecialistProfessionalSkill, standardSkillNames, type Skill, type Skills } from "../data/skill";
+import { combineSkills, compare, getStartingSkills, getUniqueSkills, isCombatSkill, isProfessionalSkill, isSpecialistProfessionalSkill, standardSkillNames, type Skill, type Skills } from "../data/skill";
 import { SkillSelectors } from "./SkillSelectors";
 import { SkillTable } from "./SkillTable";
 import { getSkillOptions, type Class as ClassType } from "../data/class";
+import React from "react";
 
 type Props = {
     readonly speciesSkills: Skills;
@@ -17,6 +18,8 @@ type Props = {
 
 export function ClassSkills({ speciesSkills, characteristics, culturalSkills, characterClass, classSkills, setClassSkills, back, next }: Props) {
 
+    const [selectorError, setSelectorError] = React.useState<string | undefined>(undefined);
+
     const skillOptions = getSkillOptions(characterClass);
 
     const classSkillArray = classSkills.map(skill => skill.skill);
@@ -26,7 +29,7 @@ export function ClassSkills({ speciesSkills, characteristics, culturalSkills, ch
         setClassSkills(newClassSkills);
     }
 
-    const combinedSkillNames = [...new Map([...culturalSkills.map(cs => cs.skill), ...classSkills.map(cs => cs.skill)].map(skill => [getDisplayName(skill), skill])).values()].sort((a, b) => compare(a, b));
+    const combinedSkillNames = getUniqueSkills([...culturalSkills.map(cs => cs.skill), ...classSkills.map(cs => cs.skill)]).sort((a, b) => compare(a, b));
 
     const professionalSkillNames = combinedSkillNames.filter(isProfessionalSkill);
 
@@ -36,7 +39,7 @@ export function ClassSkills({ speciesSkills, characteristics, culturalSkills, ch
 
     return (
         <>
-            <SkillSelectors skillOptions={skillOptions} skills={classSkillArray} setSkills={setClassSkillsArray} />
+            <SkillSelectors skillOptions={skillOptions} skills={classSkillArray} setSkills={setClassSkillsArray} error={selectorError} setError={setSelectorError} />
             <h4>Standard Skills</h4>
             <SkillTable skills={standardSkillNames} columns={[
                 { name: "Starting Value", values: getStartingSkills(standardSkillNames, characteristics) },
@@ -55,7 +58,7 @@ export function ClassSkills({ speciesSkills, characteristics, culturalSkills, ch
                 { name: "Class Modifier", values: classSkills }
             ]} />
             <button onClick={back}>Back</button>
-            <button style={{ float: 'right' }} onClick={next} disabled={classSkills.some(s => isSpecialistProfessionalSkill(s.skill) && !s.skill.specialization)}>Next</button>
+            <button style={{ float: 'right' }} onClick={next} disabled={!!selectorError || classSkills.some(s => isSpecialistProfessionalSkill(s.skill) && !s.skill.specialization)}>Next</button>
         </>
     );
 }
