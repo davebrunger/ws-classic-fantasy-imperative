@@ -1,3 +1,4 @@
+import { roll } from "./common";
 import { getCharacteristicRolls, type Species } from "./species";
 
 export const characteristicNames = [
@@ -14,29 +15,27 @@ export type Characteristic = (typeof characteristicNames)[number];
 
 export type Characteristics = Readonly<Record<Characteristic, number>>;
 
-export function isCharacteristic(value: unknown): value is Characteristic {
-    return typeof value === 'string' && characteristicNames.includes(value as Characteristic);
+export type StartingValue = {
+    readonly characteristic1: Characteristic;
+    readonly characteristic2: Characteristic;
+    readonly bonus?: number;
 }
 
-export function rollCharacteristic(dice: number, sides: number, modifier: number) {
-    let total = 0;
-    for (let i = 0; i < dice; i++) {
-        total += Math.floor(Math.random() * sides) + 1;
-    }
-    return total + modifier;
+export function isCharacteristic(value: unknown): value is Characteristic {
+    return typeof value === 'string' && characteristicNames.includes(value as Characteristic);
 }
 
 export function rollCharacteristics(species: Species): Characteristics {
     const rolls = getCharacteristicRolls(species);
 
     return {
-        Strength: rollCharacteristic(rolls.Strength.dice, rolls.Strength.sides, rolls.Strength.modifier),
-        Constitution: rollCharacteristic(rolls.Constitution.dice, rolls.Constitution.sides, rolls.Constitution.modifier),
-        Size: rollCharacteristic(rolls.Size.dice, rolls.Size.sides, rolls.Size.modifier),
-        Dexterity: rollCharacteristic(rolls.Dexterity.dice, rolls.Dexterity.sides, rolls.Dexterity.modifier),
-        Intelligence: rollCharacteristic(rolls.Intelligence.dice, rolls.Intelligence.sides, rolls.Intelligence.modifier),
-        Power: rollCharacteristic(rolls.Power.dice, rolls.Power.sides, rolls.Power.modifier),
-        Charisma: rollCharacteristic(rolls.Charisma.dice, rolls.Charisma.sides, rolls.Charisma.modifier),
+        Strength: roll(rolls.Strength),
+        Constitution: roll(rolls.Constitution),
+        Size: roll(rolls.Size),
+        Dexterity: roll(rolls.Dexterity),
+        Intelligence: roll(rolls.Intelligence),
+        Power: roll(rolls.Power),
+        Charisma: roll(rolls.Charisma),
     };
 }
 
@@ -90,4 +89,8 @@ export function getLuckPoints(characteristics: Characteristics): number {
 
 export function getMagicPoints(characteristics: Characteristics): number {
     return characteristics.Power;
+}
+
+export function getStartingValue(startingValue: StartingValue, characteristics: Characteristics): number {
+    return characteristics[startingValue.characteristic1] + characteristics[startingValue.characteristic2] + (startingValue.bonus ?? 0);
 }

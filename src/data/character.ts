@@ -1,32 +1,33 @@
-import { rollCharacteristic, type Characteristics } from "./characterisic";
+import { type Characteristics } from "./characterisic";
 import { getCharacteristicRolls, type Species } from "./species"
-import { type ProfessionalSkills, type StandardSkills, getStartingSkills } from "./skill";
+import { getStartingStandardSkills, type Skills } from "./skill";
 import type { Culture } from "./culture";
+import { roll } from "./common";
 
 export type Character = {
     readonly species: Species;
     readonly characteristics: Characteristics;
-    readonly standardSkills: StandardSkills;
+    readonly standardSkills: Skills;
     readonly culture: Culture;
-    readonly professionalSkills: ProfessionalSkills;
+    readonly professionalSkills: Skills;
 }
 
 export function newCharacter(species: Species): Partial<Character> {
     const rolls = getCharacteristicRolls(species);
 
     const characteristics: Characteristics = {
-        Strength: rollCharacteristic(rolls.Strength.dice, rolls.Strength.sides, rolls.Strength.modifier),
-        Constitution: rollCharacteristic(rolls.Constitution.dice, rolls.Constitution.sides, rolls.Constitution.modifier),
-        Size: rollCharacteristic(rolls.Size.dice, rolls.Size.sides, rolls.Size.modifier),
-        Dexterity: rollCharacteristic(rolls.Dexterity.dice, rolls.Dexterity.sides, rolls.Dexterity.modifier),
-        Intelligence: rollCharacteristic(rolls.Intelligence.dice, rolls.Intelligence.sides, rolls.Intelligence.modifier),
-        Power: rollCharacteristic(rolls.Power.dice, rolls.Power.sides, rolls.Power.modifier),
-        Charisma: rollCharacteristic(rolls.Charisma.dice, rolls.Charisma.sides, rolls.Charisma.modifier),
+        Strength: roll(rolls.Strength),
+        Constitution: roll(rolls.Constitution),
+        Size: roll(rolls.Size),
+        Dexterity: roll(rolls.Dexterity),
+        Intelligence: roll(rolls.Intelligence),
+        Power: roll(rolls.Power),
+        Charisma: roll(rolls.Charisma),
     };
 
     return {
         species,
         characteristics,
-        standardSkills: getStartingSkills(characteristics),
+        standardSkills: getStartingStandardSkills(characteristics),
     };
 }

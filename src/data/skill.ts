@@ -1,4 +1,4 @@
-import type { Characteristic, Characteristics } from "./characterisic";
+import { getStartingValue as getStartingValueFromCharacteristics, type Characteristics, type StartingValue } from "./characterisic";
 
 export const standardSkillNames = [
     "Athletics",
@@ -122,6 +122,13 @@ export const skillNames = [...standardSkillNames, ...professionalSkillNames, ...
 
 export type SkillName = StandardSkill | ProfessionalSkillName | CombatSkill;
 
+export type Skills = Readonly<{ readonly skill: Skill, readonly value: number }[]>;
+
+export type SkillOption = {
+    readonly skills: Skill[];
+    readonly quickPick: number;
+}
+
 export function getSkillName(skill: Skill): SkillName {
     if (isSpecialistProfessionalSkill(skill)) {
         return skill.name;
@@ -136,18 +143,6 @@ export function getDisplayName(skill: Skill): string {
     } else {
         return skill;
     }
-}
-
-export type Skills = Readonly<{ readonly skill: Skill, readonly value: number }[]>;
-
-export type SkillOption = {
-    readonly skills: Skill[];
-    readonly quickPick: number;
-}
-
-type StartingValue = {
-    readonly characteristic1: Characteristic;
-    readonly characteristic2: Characteristic;
 }
 
 export function getStartingValue(skill: Skill): StartingValue {
@@ -268,7 +263,7 @@ export function getStartingValue(skill: Skill): StartingValue {
 
 export function getStartingSkillValue(skill: Skill, characteristics: Characteristics): number {
     const startingValue = getStartingValue(skill);
-    return characteristics[startingValue.characteristic1] + characteristics[startingValue.characteristic2];
+    return getStartingValueFromCharacteristics(startingValue, characteristics);
 }
 
 export function getStartingSkills(skills: Readonly<Skill[]>, characteristics: Characteristics): Skills {

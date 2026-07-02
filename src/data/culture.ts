@@ -208,3 +208,29 @@ export function getSkillOptions(culture: Culture): SkillOption[] {
             ];
         }
 }
+
+export function getMovementinFeet(culture: Culture): number {
+    switch (culture) {
+        case 'Barbarian, Warrior Type':
+        case 'Barbarian, Wise Person':
+        case 'Civilizied, Street Smart':
+        case 'Civilizied, Book Smart':
+        case 'Nomad, Warrior Type':
+        case 'Nomad, Wise Person':
+        case 'Primitive, Warrior Type':
+        case 'Primitive, Wise Person':
+            return 20;
+        case 'Dwarf':
+            return 15;
+        case 'Elf':
+            return 20;
+        case 'Gnome':
+            return 15;
+        case 'Raised as Elf':
+            return 20;
+        case 'Raised as Orc':
+            return 20;
+        case 'Halfling':
+            return 30;
+    }
+}
